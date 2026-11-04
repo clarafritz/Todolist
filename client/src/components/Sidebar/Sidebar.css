@@ -1,0 +1,62 @@
+
+/* -----------------------------------------
+Sidebar.css -> Style menu nav latéral 
+----------------------------------------- */
+@reference "../../index.css";
+
+
+.sidebar {
+    width: 245px;
+    min-height: 100vh;
+    padding: 36px 18px 24px;
+    @apply flex flex-col shrink-0;
+    @apply bg-white border-r border-blush;
+
+
+    .sidebar-logo {
+        margin-bottom: 52px;
+        padding: 0 16px;
+        @apply flex flex-col;
+
+        span {
+            font-size: 43px;
+            @apply font-title font-semibold leading-none;
+            @apply text-cocoa;
+        }
+        p {
+            margin: 7px 0 0;
+            letter-spacing: 0.3px;
+            @apply text-xs text-dusty-rose;
+        }
+    }
+
+
+    .sidebar-nav {
+        gap: 7px;
+        @apply flex flex-col;
+    }
+
+
+    .sidebar-link {
+        gap: 14px;
+        padding: 13px 16px;
+        @apply flex items-center;
+        @apply rounded-xl no-underline;
+        @apply text-sm font-medium text-cocoa;
+        @apply transition-colors duration-200 ease-in-out;
+
+        &:hover {
+            @apply bg-ivory text-dusty-rose;
+        }
+        &.active {
+            @apply bg-blush text-dusty-rose;
+        }
+    }
+
+
+    .sidebar-bottom {
+        margin-top: auto;
+        padding-top: 24px;
+        @apply border-t border-blush;
+    }
+}
