@@ -1,0 +1,34 @@
+/* -----------------------------------------
+CalendarPage.css -> Style page calendrier
+----------------------------------------- */
+@reference "../../index.css";
+
+
+.calendar-page {
+    width: 100%;
+    min-width: 0;
+
+    .calendar-page-content {
+        padding: 32px;
+        @apply rounded-2xl bg-white;
+        @apply border border-blush;
+        h2 {
+            font-size: 32px;
+            margin-bottom: 28px;
+            @apply font-title font-semibold text-cocoa;
+        }
+    }
+}
+
+
+
+/* -----------------------------------------
+Responsive -> Téléphone
+----------------------------------------- */
+@media (max-width: 600px) {
+    .calendar-page {
+        .calendar-page-content {
+            padding: 20px;
+        }
+    }
+}

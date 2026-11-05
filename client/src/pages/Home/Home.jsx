@@ -3,6 +3,7 @@ Home.jsx -> Page d'accueil Bloom
 ----------------------------------------- */
 import Header from '../../components/Header/Header';
 import './Home.css';
+import CalendarWidget from '../../components/Widgets/Calendar/Calendar';
 
 /* Fonction : Affiche la page d'accueil */
 /* Paramètre : aucun */
@@ -15,10 +16,15 @@ function Home() {
             <div className='home-content'>
                 <article className='home-widget widget-calendar'>
                     <h2>Calendar</h2>
+                    <CalendarWidget variant='compact' />
                 </article>
 
                 <article className='home-widget widget-day'>
                     <h2>My Day</h2>
+                </article>
+
+                <article className='home-widget widget-motivation'>
+                    <h2>Daily Motivation</h2>
                 </article>
 
                 <article className='home-widget widget-tasks'>
@@ -29,14 +35,9 @@ function Home() {
                     <h2>Goals</h2>
                 </article>
 
-                <article className='home-widget widget-motivation'>
-                    <h2>Daily Motivation</h2>
-                </article>
-
                 <article className='home-widget widget-notes'>
                     <h2>Quick Notes</h2>
                 </article>
-
             </div>
         </section>
     );

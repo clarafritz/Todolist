@@ -7,6 +7,7 @@ import { Menu } from 'lucide-react';
 
 import Sidebar from './components/Sidebar/Sidebar';
 import Home from './pages/Home/Home';
+import CalendarPage from './pages/Calendar/CalendarPage';
 import PagePlaceholder from './components/PagePlaceholder/PagePlaceholder';
 import './App.css';
 
@@ -73,7 +74,7 @@ function App() {
                         <Route path='/' element={<Home />} />
                         <Route
                             path='/calendar'
-                            element={<PagePlaceholder title='Calendar' />}
+                            element={<CalendarPage />}
                         />
                         <Route
                             path='/tasks'
