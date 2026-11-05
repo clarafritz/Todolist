@@ -1,0 +1,117 @@
+
+@reference "../../index.css";
+
+/* -----------------------------------------
+CalendarEvent.css -> Formulaire événement Bloom
+----------------------------------------- */
+
+.event-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    padding: 20px;
+    @apply flex items-center justify-center;
+    @apply bg-cocoa/30;
+}
+
+.event-modal {
+    width: 100%;
+    max-width: 460px;
+    padding: 28px;
+    @apply rounded-2xl bg-white;
+    @apply shadow-xl;
+
+    .event-header {
+        margin-bottom: 24px;
+        @apply flex items-center justify-between;
+
+        h2 {
+            font-size: 28px;
+            @apply font-title font-semibold text-cocoa;
+        }
+        button {
+            width: 32px;
+            height: 32px;
+            @apply flex items-center justify-center;
+            @apply rounded-full text-cocoa;
+            @apply transition-colors duration-200;
+
+            &:hover {
+                @apply bg-blush;
+            }
+        }
+    }
+
+    form {
+        @apply flex flex-col;
+        gap: 20px;
+    }
+
+    .event-field {
+        min-width: 0;
+        @apply flex flex-col;
+        gap: 8px;
+
+        label {
+            @apply text-sm font-medium text-cocoa;
+        }
+        input,
+        select {
+            width: 100%;
+            min-width: 0;
+            height: 44px;
+            padding: 0 12px;
+            @apply rounded-lg bg-ivory;
+            @apply border border-blush;
+            @apply font-body text-sm text-cocoa;
+            @apply outline-none transition-colors duration-200;
+
+            &:focus {
+                @apply border-dusty-rose;
+            }
+        }
+    }
+
+    .event-row {
+        @apply grid grid-cols-2;
+        gap: 12px;
+    }
+
+    .event-actions {
+        margin-top: 8px;
+        @apply flex justify-end;
+        gap: 10px;
+
+        button {
+            padding: 11px 18px;
+            @apply rounded-lg text-sm font-medium;
+            @apply transition-colors duration-200;
+        }
+        .event-cancel {
+            @apply bg-ivory text-cocoa;
+
+            &:hover {
+                @apply bg-blush;
+            }
+        }
+        .event-save {
+            @apply bg-dusty-rose text-white;
+
+            &:hover {
+                @apply bg-pink;
+            }
+        }
+    }
+}
+
+
+
+@media (max-width: 600px) {
+    .event-modal {
+        padding: 20px;
+
+        .event-row {
+            @apply grid-cols-1;
+        }
+    }
+}

@@ -1,9 +1,11 @@
+
 /* -----------------------------------------
 Calendar.jsx -> Calendrier mensuel Bloom
 ----------------------------------------- */
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Calendar.css';
+import CalendarEvent from '../../CalendarEvent/CalendarEvent';
 
 
 /* Fonction : Affiche un calendrier mensuel */
@@ -12,6 +14,8 @@ import './Calendar.css';
 function CalendarWidget({ variant = 'compact' }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [isEventOpen, setIsEventOpen] = useState(false);
+    const [events, setEvents] = useState([]);
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -29,90 +33,117 @@ function CalendarWidget({ variant = 'compact' }) {
     /* Fonction : Sélectionne une date */
     /* Paramètre : day (numéro du jour) */
     const selectDay = (day) => {
-        setSelectedDate(new Date(year, month, day));
+        const date = new Date(year, month, day);
+        setSelectedDate(date);
+
+        if (variant === 'full') {
+            setIsEventOpen(true);
+        }
+    };
+
+    /* Fonction : Ajoute un événement à la liste */
+    /* Paramètre : newEvent (événement créé) */
+    const addEvent = (newEvent) => {
+        setEvents((previousEvents) => [...previousEvents, newEvent]);
     };
 
 
     /* Tab : cases calendrier */
+    const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+    const calendarWeeks = totalCells / 7;
     const days = Array.from(
-        { length: firstDay + daysInMonth },
+        { length: totalCells },
         (_, index) => {
             const day = index - firstDay + 1;
-            return day > 0 ? day : null;
+            return day > 0 && day <= daysInMonth ? day : null;
         }
     );
 
+    const formattedDate = [
+        selectedDate.getFullYear(),
+        String(selectedDate.getMonth() + 1).padStart(2, '0'),
+        String(selectedDate.getDate()).padStart(2, '0')
+    ].join('-');
 
     return (
-        <div className={`calendar-widget calendar-${variant}`}>
-            {/* Navigation mensuelle */}
-            <div className='calendar-navigation'>
-                <button
-                    type='button'
-                    onClick={() => changeMonth(-1)}
-                    aria-label='Previous month'
-                >
-                    <ChevronLeft size={20} />
-                </button>
+        <>
+            <div className={`calendar-widget calendar-${variant} calendar-weeks-${calendarWeeks}`}>
+                {/* Navigation mensuelle */}
+                <div className='calendar-navigation'>
+                    <button
+                        type='button'
+                        onClick={() => changeMonth(-1)}
+                        aria-label='Previous month'
+                    >
+                        <ChevronLeft size={20} />
+                    </button>
 
-                <h3>
-                    {currentDate.toLocaleDateString('en-US', {
-                        month: 'long',
-                        year: 'numeric'
-                    })}
-                </h3>
+                    <h3>
+                        {currentDate.toLocaleDateString('en-US', {
+                            month: 'long',
+                            year: 'numeric'
+                        })}
+                    </h3>
 
-                <button
-                    type='button'
-                    onClick={() => changeMonth(1)}
-                    aria-label='Next month'
-                >
-                    <ChevronRight size={20} />
-                </button>
-            </div>
+                    <button
+                        type='button'
+                        onClick={() => changeMonth(1)}
+                        aria-label='Next month'
+                    >
+                        <ChevronRight size={20} />
+                    </button>
+                </div>
 
 
-            {/* Grille du calendrier */}
-            <div className='calendar-grid'>
+                {/* Grille du calendrier */}
+                <div className='calendar-grid'>
+                    {weekDays.map((day) => (
+                        <span key={day} className='calendar-weekday'>
+                            {variant === 'compact' ? day[0] : day}
+                        </span>
+                    ))}
 
-                {weekDays.map((day) => (
-                    <span key={day} className='calendar-weekday'>
-                        {variant === 'compact' ? day[0] : day}
-                    </span>
-                ))}
+                    {days.map((day, index) => {
+                        if (day === null) {
+                            return (
+                                <span
+                                    key={`empty-${index}`}
+                                    className='calendar-empty'
+                                />
+                            );
+                        }
 
-                {days.map((day, index) => {
-                    if (day === null) {
+                        const isSelected =
+                            day === selectedDate.getDate() &&
+                            month === selectedDate.getMonth() &&
+                            year === selectedDate.getFullYear();
+
                         return (
-                            <span
-                                key={`empty-${index}`}
-                                className='calendar-empty'
-                            />
+                            <button
+                                key={day}
+                                type='button'
+                                className={`calendar-day ${isSelected ? 'selected' : ''}`}
+                                onClick={() => selectDay(day)}
+                                aria-pressed={isSelected}
+                                aria-label={`${day} ${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`}
+                            >
+                                <span className='calendar-day-number'>
+                                    {day}
+                                </span>
+                            </button>
                         );
-                    }
-
-                    const isSelected =
-                        day === selectedDate.getDate() &&
-                        month === selectedDate.getMonth() &&
-                        year === selectedDate.getFullYear();
-
-                    return (
-                        <button
-                            key={day}
-                            type='button'
-                            className={`calendar-day ${isSelected ? 'selected' : ''}`}
-                            onClick={() => selectDay(day)}
-                            aria-pressed={isSelected}
-                            aria-label={`${day} ${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`}
-                        >
-                            <span className='calendar-day-number'>
-                                {day}
-                            </span>
-                        </button>
-                    );
-                })}
+                    })}
+                </div>
             </div>
-        </div>
+
+            {isEventOpen && (
+                <CalendarEvent
+                    date={formattedDate}
+                    onClose={() => setIsEventOpen(false)}
+                    onSave={addEvent}
+                />
+            )}
+        </>
     );
 }
 
