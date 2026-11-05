@@ -1,4 +1,3 @@
-
 /* -----------------------------------------
 index.css -> Styles globaux de Bloom
 ----------------------------------------- */
@@ -8,11 +7,11 @@ index.css -> Styles globaux de Bloom
 
 /* Palette couleurs */
 @theme {
-    --color-ivory: #FFF9F7;
-    --color-blush: #F8E3E9;
+    --color-ivory: #FCF8FA;
+    --color-blush: #F3E3E9;
     --color-pink: #E8A9BF;
     --color-dusty-rose: #C47F99;
-    --color-cocoa: #59434D;
+    --color-cocoa: #514D4A;
     --color-white: #FFFFFF;
 
     --font-body: 'DM Sans', sans-serif;

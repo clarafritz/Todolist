@@ -94,7 +94,21 @@ Version compacte -> Home
 /* -----------------------------------------
 Version full -> Page Calendar
 ----------------------------------------- */
+.calendar-weeks-4 {
+    --calendar-weeks: 4;
+}
+.calendar-weeks-5 {
+    --calendar-weeks: 5;
+}
+.calendar-weeks-6 {
+    --calendar-weeks: 6;
+}
+
 .calendar-full {
+    flex: 1; 
+    min-height: 0; 
+    @apply flex flex-col; 
+
     .calendar-navigation {
         margin-bottom: 24px;
 
@@ -104,13 +118,15 @@ Version full -> Page Calendar
     }
 
     .calendar-grid {
-        gap: 0;
-        @apply border-t border-l border-blush;
+        gap: 6px;
+        flex: 1;
+        min-height: 0;
+        grid-template-rows: 40px repeat(var(--calendar-weeks), minmax(0, 1fr));
     }
 
     .calendar-weekday {
         padding: 12px 0;
-        @apply border-r border-b border-blush;
+        @apply text-cocoa;
     }
 
     .calendar-day,
@@ -118,12 +134,12 @@ Version full -> Page Calendar
         min-width: 0;
         min-height: 72px;
         padding: 8px;
-        @apply border-r border-b border-blush;
+        @apply rounded-lg border border-[#EAE8E9];
     }
 
     .calendar-day {
         @apply flex justify-end text-sm;
-        @apply text-cocoa;
+        @apply bg-white text-cocoa;
         @apply transition-colors duration-200;
 
         &:hover {

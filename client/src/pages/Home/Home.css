@@ -17,7 +17,6 @@ Home.css -> Style de la page d'accueil
         min-height: 180px;
         padding: 20px;
         @apply rounded-2xl bg-white;
-        @apply border border-blush;
         h2 {
             font-size: 24px;
             margin-bottom: 16px;

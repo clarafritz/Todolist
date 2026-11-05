@@ -9,7 +9,7 @@ Sidebar.css -> Style menu nav latéral
     min-height: 100vh;
     padding: 36px 18px 24px;
     @apply flex flex-col shrink-0;
-    @apply bg-white border-r border-blush;
+    @apply bg-white;
 
 
     .sidebar-logo {

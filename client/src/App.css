@@ -21,6 +21,12 @@ App.css -> Style structure principale
             @apply text-dusty-rose;
         }
     }
+
+    .app-content:has(.calendar-page) {
+        height: 100vh;
+        min-height: 0;
+        overflow: hidden;
+    }
 }
 
 
@@ -73,6 +79,12 @@ Boutons nav responsive
             p {
                 font-size: 14px;
             }
+        }
+
+        .app-content:has(.calendar-page) {
+            height: auto;
+            min-height: 100vh;
+            overflow: visible;
         }
     }
 }
