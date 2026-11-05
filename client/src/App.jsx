@@ -2,11 +2,13 @@
 App.jsx -> Composant principal Bloom
 ----------------------------------------- */
 import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Menu } from 'lucide-react';
-import Sidebar from './components/Sidebar/Sidebar';
-import Dashboard from './pages/Dashboard/Dashboard';
-import './App.css';
 
+import Sidebar from './components/Sidebar/Sidebar';
+import Home from './pages/Home/Home';
+import PagePlaceholder from './components/PagePlaceholder/PagePlaceholder';
+import './App.css';
 
 /* Fonction : Affiche la structure principale */
 /* Paramètre : aucun */
@@ -21,7 +23,7 @@ function App() {
         setIsSidebarOpen(false);
     };
 
-    /*Ferme Sidebar w echap */
+    /*Ferme  Sidebar w echap */
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
@@ -36,38 +38,63 @@ function App() {
         };
     }, []);
 
-    /* ------------------- */
-    return (
-        <div className='app'>
-            <button
-                type='button'
-                className='menu-toggle'
-                onClick={openSidebar}
-                aria-label='Open navigation menu'
-                aria-controls='bloom-sidebar'
-                aria-expanded={isSidebarOpen}
-            >
-                <Menu size={24} aria-hidden='true' />
-            </button>
 
-            {isSidebarOpen && (
+    return (
+        <BrowserRouter>
+            <div className='app'>
                 <button
                     type='button'
-                    className='sidebar-overlay'
-                    onClick={closeSidebar}
-                    aria-label='Close navigation menu'
+                    className='menu-toggle'
+                    onClick={openSidebar}
+                    aria-label='Open navigation menu'
+                    aria-controls='bloom-sidebar'
+                    aria-expanded={isSidebarOpen}
+                >
+                    <Menu size={24} aria-hidden='true' />
+                </button>
+
+                {isSidebarOpen && (
+                    <button
+                        type='button'
+                        className='sidebar-overlay'
+                        onClick={closeSidebar}
+                        aria-label='Close navigation menu'
+                    />
+                )}
+
+                <Sidebar
+                    isOpen={isSidebarOpen}
+                    onClose={closeSidebar}
                 />
-            )}
 
-            <Sidebar
-                isOpen={isSidebarOpen}
-                onClose={closeSidebar}
-            />
-
-            <main className='app-content'>
-                <Dashboard />
-            </main>
-        </div>
+                {/* Contenu page active */}
+                <main className='app-content'>
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route
+                            path='/calendar'
+                            element={<PagePlaceholder title='Calendar' />}
+                        />
+                        <Route
+                            path='/tasks'
+                            element={<PagePlaceholder title='Tasks' />}
+                        />
+                        <Route
+                            path='/goals'
+                            element={<PagePlaceholder title='Goals' />}
+                        />
+                        <Route
+                            path='/notes'
+                            element={<PagePlaceholder title='Notes' />}
+                        />
+                        <Route
+                            path='/customize'
+                            element={<PagePlaceholder title='Customize' />}
+                        />
+                    </Routes>
+                </main>
+            </div>
+        </BrowserRouter>
     );
 }
 

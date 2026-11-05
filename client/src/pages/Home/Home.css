@@ -1,19 +1,19 @@
 /* -----------------------------------------
-Dashboard.css -> Style du tableau de bord
+Home.css -> Style de la page d'accueil
 ----------------------------------------- */
 @reference "../../index.css";
 
-
-.dashboard {
+.home {
     width: 100%;
     min-width: 0;
 
-    .dashboard-content {
+    .home-content {
         gap: 24px;
         @apply grid grid-cols-2;
     }
 
-    .dashboard-widget {
+    .home-widget {
+        min-width: 0;
         min-height: 180px;
         padding: 24px;
         @apply rounded-2xl bg-white;
@@ -23,23 +23,36 @@ Dashboard.css -> Style du tableau de bord
             @apply font-title font-semibold text-cocoa;
         }
     }
-}
 
+    .widget-calendar,
+    .widget-day {
+        min-height: 320px;
+    }
+
+    .widget-motivation {
+        @apply bg-blush;
+    }
+}
 
 
 /* -----------------------------------------
 Responsive -> Téléphone
 ----------------------------------------- */
 @media (max-width: 600px) {
-    .dashboard {
-        .dashboard-content {
+    .home {
+        .home-content {
             gap: 16px;
             @apply grid-cols-1;
         }
 
-        .dashboard-widget {
+        .home-widget {
             min-height: 150px;
             padding: 20px;
+        }
+
+        .widget-calendar,
+        .widget-day {
+            min-height: 280px;
         }
     }
 }

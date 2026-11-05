@@ -2,33 +2,31 @@
 Sidebar.jsx -> Menu nav de Bloom
 ----------------------------------------- */
 import {
-    LayoutDashboard,
-    ListTodo,
+    House,
     CalendarDays,
+    ListTodo,
+    Star,
     NotebookPen,
-    Target,
-    FolderKanban,
-    PanelsTopLeft,
     Palette,
     X
 } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
+
 /* Tableau : contient les liens de navigation */
-/* Objet : label (texte), icon (composant), path (lien) */
+/* Objet : label (txt), icon, path */
 const navItems = [
-    { label: 'My Day', icon: LayoutDashboard, path: '#myday' },
-    { label: 'Tasks', icon: ListTodo, path: '#tasks' },
-    { label: 'Calendar', icon: CalendarDays, path: '#calendar' },
-    { label: 'Notes', icon: NotebookPen, path: '#notes' },
-    { label: 'Goals', icon: Target, path: '#goals' },
-    { label: 'Projects', icon: FolderKanban, path: '#projects' },
-    { label: 'My Spaces', icon: PanelsTopLeft, path: '#spaces' },
+    { label: 'Home', icon: House, path: '/' },
+    { label: 'Calendar', icon: CalendarDays, path: '/calendar' },
+    { label: 'Tasks', icon: ListTodo, path: '/tasks' },
+    { label: 'Goals', icon: Star, path: '/goals' },
+    { label: 'Notes', icon: NotebookPen, path: '/notes' },
 ];
 
 
-/* Fonction : Affiche le menu de navigation latéral */
-/* Paramètres : isOpen (état), onClose (fermeture) */
+/* Fonction : Affiche le menu latéral */
+/* Paramètres : isOpen, onClose */
 /* Return : JSX */
 function Sidebar({ isOpen, onClose }) {
     return (
@@ -36,7 +34,6 @@ function Sidebar({ isOpen, onClose }) {
             id='bloom-sidebar'
             className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}
         >
-
             <div className='sidebar-logo'>
                 <span>Bloom</span>
                 <p>Your space</p>
@@ -52,13 +49,17 @@ function Sidebar({ isOpen, onClose }) {
             </div>
 
             <nav className='sidebar-nav' aria-label='Main navigation'>
-                {/* génère liens : à partir tab */}
-                {navItems.map(({ label, icon: Icon, path }, index) =>
-                    <a
+
+                {/* Génère liens depuis tab */}
+                {navItems.map(({ label, icon: Icon, path }) =>
+                    <NavLink
                         key={label}
-                        href={path}
+                        to={path}
+                        end
                         onClick={onClose}
-                        className={`sidebar-link ${index === 0 ? 'active' : ''}`}
+                        className={({ isActive }) =>
+                            `sidebar-link ${isActive ? 'active' : ''}`
+                        }
                     >
                         <Icon
                             size={19}
@@ -66,15 +67,17 @@ function Sidebar({ isOpen, onClose }) {
                             aria-hidden='true'
                         />
                         <span>{label}</span>
-                    </a>
+                    </NavLink>
                 )}
             </nav>
 
             <div className='sidebar-bottom'>
-                <a
-                    href='#customize'
-                    className='sidebar-link'
+                <NavLink
+                    to='/customize'
                     onClick={onClose}
+                    className={({ isActive }) =>
+                        `sidebar-link ${isActive ? 'active' : ''}`
+                    }
                 >
                     <Palette
                         size={19}
@@ -82,7 +85,7 @@ function Sidebar({ isOpen, onClose }) {
                         aria-hidden='true'
                     />
                     <span>Customize</span>
-                </a>
+                </NavLink>
             </div>
         </aside>
     );
