@@ -4,7 +4,7 @@ App.jsx -> Composant principal Bloom
 import { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import Sidebar from './components/Sidebar/Sidebar';
-import Header from './components/Header/Header';
+import Dashboard from './pages/Dashboard/Dashboard';
 import './App.css';
 
 
@@ -65,7 +65,7 @@ function App() {
             />
 
             <main className='app-content'>
-                <Header />
+                <Dashboard />
             </main>
         </div>
     );

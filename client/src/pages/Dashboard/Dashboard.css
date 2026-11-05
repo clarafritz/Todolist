@@ -1,0 +1,45 @@
+/* -----------------------------------------
+Dashboard.css -> Style du tableau de bord
+----------------------------------------- */
+@reference "../../index.css";
+
+
+.dashboard {
+    width: 100%;
+    min-width: 0;
+
+    .dashboard-content {
+        gap: 24px;
+        @apply grid grid-cols-2;
+    }
+
+    .dashboard-widget {
+        min-height: 180px;
+        padding: 24px;
+        @apply rounded-2xl bg-white;
+        @apply border border-blush;
+        h2 {
+            font-size: 26px;
+            @apply font-title font-semibold text-cocoa;
+        }
+    }
+}
+
+
+
+/* -----------------------------------------
+Responsive -> Téléphone
+----------------------------------------- */
+@media (max-width: 600px) {
+    .dashboard {
+        .dashboard-content {
+            gap: 16px;
+            @apply grid-cols-1;
+        }
+
+        .dashboard-widget {
+            min-height: 150px;
+            padding: 20px;
+        }
+    }
+}
