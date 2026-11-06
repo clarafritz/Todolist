@@ -15,7 +15,10 @@ function CalendarWidget({ variant = 'compact' }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isEventOpen, setIsEventOpen] = useState(false);
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState(() => {
+        const savedEvents = localStorage.getItem('bloom-events');
+        return savedEvents ? JSON.parse(savedEvents) : [];
+    });
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -44,7 +47,9 @@ function CalendarWidget({ variant = 'compact' }) {
     /* Fonction : Ajoute un événement à la liste */
     /* Paramètre : newEvent (événement créé) */
     const addEvent = (newEvent) => {
-        setEvents((previousEvents) => [...previousEvents, newEvent]);
+        const updatedEvents = [...events, newEvent];
+        localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
+        setEvents(updatedEvents);
     };
 
 
@@ -117,6 +122,15 @@ function CalendarWidget({ variant = 'compact' }) {
                             day === selectedDate.getDate() &&
                             month === selectedDate.getMonth() &&
                             year === selectedDate.getFullYear();
+                        /* Date case : YYYY-MM-DD */
+                        const dayDate = [
+                            year, 
+                            String(month + 1).padStart(2, '0'),
+                            String(day).padStart(2, '0')
+                        ].join('-');
+                        /* évènement correspondant à la date */
+                        const dayEvents = events.filter((event) => event.date === dayDate);
+
 
                         return (
                             <button
@@ -130,6 +144,20 @@ function CalendarWidget({ variant = 'compact' }) {
                                 <span className='calendar-day-number'>
                                     {day}
                                 </span>
+
+                                {variant === 'compact' && dayEvents.length > 0 && (
+                                    <span className='calendar-event-dot' aria-hidden='true'></span>
+                                )}
+
+                                {variant === 'full' && dayEvents.length > 0 && (
+                                    <span className='calendar-day-events'>
+                                        {dayEvents.map((event) => (
+                                            <span key={event.id} className='calendar-event-item'>
+                                                {event.title}
+                                            </span>
+                                        ))}
+                                    </span>
+                                )}
                             </button>
                         );
                     })}
