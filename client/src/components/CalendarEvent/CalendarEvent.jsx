@@ -19,15 +19,15 @@ const eventColors = [
 
 
 /* Fonction : Affiche le formulaire d'événement */
-/* Paramètres : date, onClose, onSave */
+/* Paramètres : date, onClose, onSave, eventToEdit */
 /* Return : JSX */
-function CalendarEvent({ date, onClose, onSave }) {
+function CalendarEvent({ date, eventToEdit, onClose, onSave }) {
     /* info événement */
-    const [title, setTitle] = useState('');
-    const [eventDate, setEventDate] = useState(date);
-    const [time, setTime] = useState('');
-    const [label, setLabel] = useState('Personal');
-    const [color, setColor] = useState('#F8E3E9');
+    const [title, setTitle] = useState(eventToEdit?.title || '');
+    const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
+    const [time, setTime] = useState(eventToEdit?.time || '');
+    const [label, setLabel] = useState(eventToEdit?.label || 'Personal');
+    const [color, setColor] = useState(eventToEdit?.color || '#F8E3E9');
 
 
     /* Fonction : Enregistre un événement */
@@ -40,7 +40,7 @@ function CalendarEvent({ date, onClose, onSave }) {
         }
 
         const newEvent = {
-            id: crypto.randomUUID(),
+            id: eventToEdit?.id || crypto.randomUUID(),
             title: title.trim(),
             date: eventDate,
             time,
@@ -63,7 +63,9 @@ function CalendarEvent({ date, onClose, onSave }) {
             >
 
                 <div className='event-header'>
-                    <h2 id='event-title'>New Event</h2>
+                    <h2 id='event-title'>
+                        {eventToEdit ? 'Edit Event' : 'New Event'}
+                    </h2>
 
                     <button
                         type='button'
@@ -155,7 +157,9 @@ function CalendarEvent({ date, onClose, onSave }) {
                             Cancel
                         </button>
 
-                        <button type='submit' className='event-save'> Save Event</button>
+                        <button type='submit' className='event-save'>
+                            {eventToEdit ? 'Save Changes' : 'Save Event'}
+                        </button>
                     </div>
                 </form>
             </div>

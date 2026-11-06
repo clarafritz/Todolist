@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Calendar.css';
 import CalendarEvent from '../../CalendarEvent/CalendarEvent';
+import CalendarDayEvents from '../../CalendarDayEvents/CalendarDayEvents';
 
 
 /* Fonction : Affiche un calendrier mensuel */
@@ -14,10 +15,12 @@ function CalendarWidget({ variant = 'compact' }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isEventOpen, setIsEventOpen] = useState(false);
+    const [isDayOpen, setIsDayOpen] = useState(false);
     const [events, setEvents] = useState(() => {
         const savedEvents = localStorage.getItem('bloom-events');
         return savedEvents ? JSON.parse(savedEvents) : [];
     });
+    const [editingEvent, setEditingEvent] = useState(null);
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -39,7 +42,7 @@ function CalendarWidget({ variant = 'compact' }) {
         setSelectedDate(date);
 
         if (variant === 'full') {
-            setIsEventOpen(true);
+            setIsDayOpen(true);
         }
     };
 
@@ -49,6 +52,33 @@ function CalendarWidget({ variant = 'compact' }) {
         const updatedEvents = [...events, newEvent];
         localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
         setEvents(updatedEvents);
+    };
+
+    /* Fonction : sauvegarde modif event existant */
+    /* Paramètre : updatedEvent */
+    const updateEvent = (updatedEvent) => {
+        const updatedEvents = events.map((event) =>
+            event.id === updatedEvent.id ? updatedEvent : event
+        );
+
+        localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
+        setEvents(updatedEvents);
+    };
+
+    /* Fonction : Ouvre form création */
+    /* Paramètre : aucun */
+    const openNewEvent = () => {
+        setEditingEvent(null);
+        setIsDayOpen(false);
+        setIsEventOpen(true);
+    };
+
+    /* Fonction : prépare modif d'un event */
+    /* Paramètre : event */
+    const editEvent = (event) => {
+        setEditingEvent(event);
+        setIsDayOpen(false);
+        setIsEventOpen(true);
     };
 
 
@@ -175,11 +205,22 @@ function CalendarWidget({ variant = 'compact' }) {
                 </div>
             </div>
 
+            {isDayOpen && (
+                <CalendarDayEvents
+                    date={formattedDate}
+                    events={events.filter((event) => event.date === formattedDate)}
+                    onClose={() => setIsDayOpen(false)}
+                    onAdd={openNewEvent}
+                    onEdit={editEvent}
+                />
+            )}
+
             {isEventOpen && (
                 <CalendarEvent
                     date={formattedDate}
+                    eventToEdit={editingEvent}
                     onClose={() => setIsEventOpen(false)}
-                    onSave={addEvent}
+                    onSave={editingEvent ? updateEvent : addEvent}
                 />
             )}
         </>

@@ -1,0 +1,115 @@
+/* -----------------------------------------
+CalendarDayEvents.css -> Gestion des événements
+----------------------------------------- */
+@reference "../../index.css";
+
+
+.day-events-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    padding: 20px;
+    @apply flex items-center justify-center;
+    @apply bg-cocoa/30;
+}
+
+.day-events-modal {
+    width: 100%;
+    max-width: 460px;
+    padding: 28px;
+    @apply rounded-2xl bg-white shadow-xl;
+
+    .day-events-header {
+        margin-bottom: 24px;
+        @apply flex items-center justify-between;
+
+        h2 {
+            font-size: 28px;
+            @apply font-title font-semibold text-cocoa;
+        }
+        button {
+            width: 32px;
+            height: 32px;
+            @apply flex items-center justify-center;
+            @apply rounded-full text-cocoa;
+            @apply transition-colors duration-200;
+
+            &:hover {
+                @apply bg-blush;
+            }
+        }
+    }
+
+    .day-events-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+        @apply flex flex-col;
+        gap: 10px;
+    }
+
+    .day-events-empty {
+        padding: 16px 0;
+        @apply text-center text-sm text-dusty-rose;
+    }
+
+    .day-event-item {
+        padding: 12px;
+        @apply flex items-center;
+        @apply rounded-lg bg-ivory;
+        gap: 12px;
+    }
+
+    .day-event-color {
+        width: 5px;
+        height: 36px;
+        flex-shrink: 0;
+        @apply rounded-full;
+    }
+
+    .day-event-info {
+        min-width: 0;
+        @apply flex flex-1 flex-col;
+        gap: 4px;
+    }
+
+    .day-event-name {
+        @apply truncate text-sm font-medium text-cocoa;
+    }
+
+    .day-event-details {
+        @apply text-xs text-dusty-rose;
+    }
+
+    .day-event-edit {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        @apply flex items-center justify-center;
+        @apply rounded-full text-cocoa;
+        @apply transition-colors duration-200;
+
+        &:hover {
+            @apply bg-blush text-dusty-rose;
+        }
+    }
+
+    .day-events-add {
+        width: 100%;
+        padding: 12px;
+        @apply flex items-center justify-center;
+        @apply rounded-lg bg-dusty-rose text-sm font-medium text-white;
+        @apply transition-colors duration-200;
+        gap: 8px;
+
+        &:hover {
+            @apply bg-pink;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .day-events-modal {
+        padding: 20px;
+    }
+}
