@@ -12,8 +12,6 @@ function CalendarPage() {
     return (
         <section className='calendar-page'>
             <div className='calendar-page-content'>
-                <h2>My Calendar</h2>
-
                 <CalendarWidget variant='full' />
             </div>
         </section>

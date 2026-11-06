@@ -80,6 +80,7 @@ Version compacte -> Home
 
     .calendar-day {
         min-width: 0;
+        position: relative;
         height: 30px;
         @apply flex items-center justify-center;
         @apply rounded-lg text-xs;
@@ -88,6 +89,16 @@ Version compacte -> Home
             width: 26px;
             height: 26px;
         }
+    }
+
+    .calendar-event-dot {
+        width: 4px;
+        height: 4px;
+        position: absolute;
+        bottom: 1px;
+        left: 50%; 
+        transform: translateX(-50%);
+        @apply rounded-full bg-dusty-rose;
     }
 }
 
@@ -110,7 +121,7 @@ Version full -> Page Calendar
     @apply flex flex-col; 
 
     .calendar-navigation {
-        margin-bottom: 24px;
+        margin-bottom: 14px;
 
         h3 {
             font-size: 22px;
@@ -138,7 +149,9 @@ Version full -> Page Calendar
     }
 
     .calendar-day {
-        @apply flex justify-end text-sm;
+        min-height: 0;
+        overflow: hidden;
+        @apply flex flex-col items-stretch text-sm;
         @apply bg-white text-cocoa;
         @apply transition-colors duration-200;
 
@@ -147,9 +160,26 @@ Version full -> Page Calendar
         }
 
         .calendar-day-number {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            font-size: 12px;
+            align-self: flex-end;
         }
+    }
+
+    /* Liste event 1 journée */
+    .calendar-day-events {
+        min-width: 0;
+        margin-top: 4px;
+        @apply flex flex-col gap-1;
+    }
+    .calendar-event-item {
+        min-width: 0;
+        padding: 4px 6px;
+        font-size: 11px;
+        @apply block truncate rounded-md;
+        @apply bg-blush text-dusty-rose;
     }
 
     .calendar-empty {
@@ -192,8 +222,17 @@ Responsive -> Tablette et téléphone
 
         .calendar-day {
             .calendar-day-number {
-                width: 26px;
-                height: 26px;
+                width: 22px;
+                height: 22px;
+            }
+
+            .calendar-day-events {
+                margin-top: 2px;
+            }
+
+            .calendar-event-item {
+                padding: 3px;
+                font-size: 9px;
             }
         }
     }

@@ -1,4 +1,3 @@
-
 /* -----------------------------------------
 App.css -> Style structure principale
 ----------------------------------------- */
@@ -24,6 +23,7 @@ App.css -> Style structure principale
 
     .app-content:has(.calendar-page) {
         height: 100vh;
+        padding: 24px;
         min-height: 0;
         overflow: hidden;
     }
@@ -85,6 +85,7 @@ Boutons nav responsive
             height: auto;
             min-height: 100vh;
             overflow: visible;
+            padding: 88px 20px 24px;
         }
     }
 }
