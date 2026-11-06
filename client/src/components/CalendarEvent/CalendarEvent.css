@@ -16,6 +16,8 @@ CalendarEvent.css -> Formulaire événement Bloom
 .event-modal {
     width: 100%;
     max-width: 460px;
+    max-height: calc(100dvh - 40px);
+    overflow-y: auto;
     padding: 28px;
     @apply rounded-2xl bg-white;
     @apply shadow-xl;
@@ -67,6 +69,49 @@ CalendarEvent.css -> Formulaire événement Bloom
 
             &:focus {
                 @apply border-dusty-rose;
+            }
+        }
+    }
+
+    .event-add-label {
+        width: fit-content;
+        @apply flex items-center gap-1;
+        @apply text-sm font-medium text-dusty-rose;
+        @apply transition-colors duration-200;
+
+        &:hover {
+            @apply text-cocoa;
+        }
+    }
+
+    .event-label-creator {
+        padding: 16px;
+        @apply flex flex-col gap-3;
+        @apply rounded-xl bg-ivory border border-blush;
+
+        label {
+            @apply text-sm font-medium text-cocoa;
+        }
+
+        input {
+            height: 44px;
+            padding: 0 12px;
+            @apply rounded-lg bg-white border border-blush;
+            @apply text-sm text-cocoa outline-none;
+
+            &:focus {
+                @apply border-dusty-rose;
+            }
+        }
+
+        .event-create-label {
+            padding: 10px 16px;
+            @apply self-start rounded-lg;
+            @apply bg-dusty-rose text-white text-sm font-medium;
+            @apply transition-colors duration-200;
+
+            &:hover {
+                @apply bg-pink;
             }
         }
     }

@@ -2,8 +2,10 @@
 CalendarEvent.jsx -> Formulaire événement calendrier 
 ----------------------------------------- */
 import { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Plus } from 'lucide-react';
 import './CalendarEvent.css';
+import { getCalendarLabels, saveCalendarLabels } from '../../data/calendarLabels';
+
 
 /* Palette couleurs labels events */
 const eventColors = [
@@ -22,6 +24,12 @@ const eventColors = [
 /* Paramètres : date, onClose, onSave, eventToEdit, onDelete */
 /* Return : JSX */
 function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
+    /* labels dispo */
+    const [calendarLabels, setCalendarLabels] = useState(getCalendarLabels);
+    const [isLabelOpen, setIsLabelOpen] = useState(false);
+    const [newLabelName, setNewLabelName] = useState('');
+    const [newLabelColor, setNewLabelColor] = useState('#F8E3E9');
+
     /* info événement */
     const [title, setTitle] = useState(eventToEdit?.title || '');
     const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
@@ -29,6 +37,39 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
     const [label, setLabel] = useState(eventToEdit?.label || 'Personal');
     const [color, setColor] = useState(eventToEdit?.color || '#F8E3E9');
 
+
+    /* Fonction : créer label personnalisé */
+    /* Paramètre : aucun */
+    const addLabel = () => {
+        const name = newLabelName.trim();
+        if (!name) {
+            return;
+        }
+
+        const alreadyExists = calendarLabels.some(
+            (calendarLabel) => calendarLabel.name.toLowerCase() === name.toLowerCase()
+        );
+
+        if (alreadyExists) {
+            return; 
+        }
+
+        const newLabel = {
+            id: crypto.randomUUID(),
+            name,
+            color: newLabelColor
+        };
+
+        const updatedLabels = [...calendarLabels, newLabel];
+
+        saveCalendarLabels(updatedLabels);
+        setCalendarLabels(updatedLabels);
+        setLabel(newLabel.name);
+        setColor(newLabel.color);
+        setNewLabelName('');
+        setNewLabelColor('#F8E3E9');
+        setIsLabelOpen(false);
+    };
 
     /* Fonction : Enregistre un événement */
     /* Paramètre : event */
@@ -131,13 +172,76 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
                         <select
                             id='event-label'
                             value={label}
-                            onChange={(event) => setLabel(event.target.value)}
+                            onChange={(event) => {
+                                const selectedLabel = calendarLabels.find(
+                                    (calendarLabel) => calendarLabel.name === event.target.value
+                                );
+
+                                setLabel(event.target.value);
+
+                                if (selectedLabel) {
+                                    setColor(selectedLabel.color);
+                                }
+                            }}
                         >
-                            <option value='Personal'>Personal</option>
-                            <option value='Meeting'>Meeting</option>
-                            <option value='School'>School</option>
-                            <option value='Appointment'>Appointment</option>
+                            {calendarLabels.map((calendarLabel) => (
+                                <option
+                                    key={calendarLabel.id}
+                                    value={calendarLabel.name}
+                                >
+                                    {calendarLabel.name}
+                                </option>
+                            ))}
                         </select>
+
+                        <button 
+                            type='button'
+                            className='event-add-label'
+                            onClick={() => setIsLabelOpen(!isLabelOpen)}
+                        >
+                            <Plus size={16} />
+                            Add Label
+                        </button>
+
+                        {isLabelOpen && (
+                            <div className='event-label-creator'>
+                                <label htmlFor='new-label-name'>New label name</label>
+                                <input 
+                                    id='new-label-name'
+                                    type='text'
+                                    placeholder='e.g. Sport'
+                                    value={newLabelName}
+                                    onChange={(event) => setNewLabelName(event.target.value)}
+                                />
+
+                                <label>Label color</label>
+                                <div className='event-colors'>
+                                    {eventColors.map((eventColor) => (
+                                        <button 
+                                            key={eventColor.value}
+                                            type='button'
+                                            className={`event-color ${newLabelColor === eventColor.value ? 'selected' : ''}`}
+                                            onClick={() => setNewLabelColor(eventColor.value)}
+                                            aria-label={`${eventColor.name} label color`}
+                                            aria-pressed={newLabelColor === eventColor.value}
+                                        >
+                                            <span 
+                                                className='event-color-preview'
+                                                style={{ backgroundColor: eventColor.value }}
+                                            ></span>
+                                        </button>
+                                    ))}
+                            </div>
+
+                            <button 
+                                type='button'
+                                className='event-create-label'
+                                onClick={addLabel}
+                            >
+                                Create label
+                            </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className='event-field'>
