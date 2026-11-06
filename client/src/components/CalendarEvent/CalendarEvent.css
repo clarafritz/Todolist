@@ -113,6 +113,14 @@ CalendarEvent.css -> Formulaire événement Bloom
             @apply rounded-lg text-sm font-medium;
             @apply transition-colors duration-200;
         }
+        .event-delete {
+            margin-right: auto;
+            @apply bg-blush text-dusty-rose;
+
+            &:hover {
+                @apply bg-pink/30;
+            }
+        }
         .event-cancel {
             @apply bg-ivory text-cocoa;
 
@@ -135,6 +143,15 @@ CalendarEvent.css -> Formulaire événement Bloom
 @media (max-width: 600px) {
     .event-modal {
         padding: 20px;
+
+        .event-actions {
+            @apply flex-wrap;
+
+            .event-delete {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
 
         .event-row {
             @apply grid-cols-1;

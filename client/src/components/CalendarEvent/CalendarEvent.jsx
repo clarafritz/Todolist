@@ -19,9 +19,9 @@ const eventColors = [
 
 
 /* Fonction : Affiche le formulaire d'événement */
-/* Paramètres : date, onClose, onSave, eventToEdit */
+/* Paramètres : date, onClose, onSave, eventToEdit, onDelete */
 /* Return : JSX */
-function CalendarEvent({ date, eventToEdit, onClose, onSave }) {
+function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
     /* info événement */
     const [title, setTitle] = useState(eventToEdit?.title || '');
     const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
@@ -52,6 +52,20 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave }) {
         onClose();
     };
 
+    /* Fonction : suppr event en cours */
+    /* Paramètre : aucun */ 
+    const handleDelete = () => {
+        if (!eventToEdit) {
+            return;
+        }
+
+        const confirmed = window.confirm('Are you sure you want to delete this event?');
+
+        if(confirmed){
+            onDelete(eventToEdit.id);
+            onClose();
+        }
+    };
 
     return (
         <div className='event-overlay'>
@@ -149,6 +163,16 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave }) {
                     </div>
 
                     <div className='event-actions'>
+                        {eventToEdit && (
+                            <button
+                                type='button'
+                                className='event-delete'
+                                onClick={handleDelete}
+                            >
+                                Delete Event
+                            </button>
+                        )}
+                        
                         <button
                             type='button'
                             className='event-cancel'

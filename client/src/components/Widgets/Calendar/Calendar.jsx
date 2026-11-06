@@ -65,6 +65,15 @@ function CalendarWidget({ variant = 'compact' }) {
         setEvents(updatedEvents);
     };
 
+    /* Fonction : suppr event */
+    /* Paramètre : eventId */
+    const deleteEvent = (eventId) => {
+        const updatedEvents = events.filter((event) => event.id !== eventId);
+
+        localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
+        setEvents(updatedEvents);
+    };
+
     /* Fonction : Ouvre form création */
     /* Paramètre : aucun */
     const openNewEvent = () => {
@@ -221,6 +230,7 @@ function CalendarWidget({ variant = 'compact' }) {
                     eventToEdit={editingEvent}
                     onClose={() => setIsEventOpen(false)}
                     onSave={editingEvent ? updateEvent : addEvent}
+                    onDelete={deleteEvent}
                 />
             )}
         </>
