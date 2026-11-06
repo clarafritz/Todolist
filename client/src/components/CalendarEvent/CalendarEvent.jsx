@@ -5,6 +5,18 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import './CalendarEvent.css';
 
+/* Palette couleurs labels events */
+const eventColors = [
+    { name: 'Rose', value: '#F8E3E9' },
+    { name: 'Peach', value: '#F9E5DA' },
+    { name: 'Yellow', value: '#F8EFCB' },
+    { name: 'Green', value: '#E4F0E6' },
+    { name: 'Blue', value: '#E1EDF7' },
+    { name: 'Lavender', value: '#E9E3F5' },
+    { name: 'Grey', value: '#EBE8E8' },
+];
+
+
 
 /* Fonction : Affiche le formulaire d'événement */
 /* Paramètres : date, onClose, onSave */
@@ -15,6 +27,7 @@ function CalendarEvent({ date, onClose, onSave }) {
     const [eventDate, setEventDate] = useState(date);
     const [time, setTime] = useState('');
     const [label, setLabel] = useState('Personal');
+    const [color, setColor] = useState('#F8E3E9');
 
 
     /* Fonction : Enregistre un événement */
@@ -31,7 +44,8 @@ function CalendarEvent({ date, onClose, onSave }) {
             title: title.trim(),
             date: eventDate,
             time,
-            label
+            label,
+            color
         };
 
         onSave(newEvent);
@@ -108,6 +122,28 @@ function CalendarEvent({ date, onClose, onSave }) {
                             <option value='School'>School</option>
                             <option value='Appointment'>Appointment</option>
                         </select>
+                    </div>
+
+                    <div className='event-field'>
+                        <label>Event color</label>
+
+                        <div className='event-colors'>
+                            {eventColors.map((eventColor) => (
+                                <button
+                                    key={eventColor.value}
+                                    type='button'
+                                    className={`event-color ${color === eventColor.value ? 'selected' : ''}`}
+                                    onClick={() => setColor(eventColor.value)}
+                                    aria-label={`${eventColor.name} color`}
+                                    aria-pressed={color === eventColor.value}
+                                >
+                                    <span
+                                        className='event-color-preview'
+                                        style={{ backgroundColor: eventColor.value }}
+                                    ></span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     <div className='event-actions'>

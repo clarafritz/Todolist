@@ -1,4 +1,3 @@
-
 /* -----------------------------------------
 Calendar.jsx -> Calendrier mensuel Bloom
 ----------------------------------------- */
@@ -146,13 +145,25 @@ function CalendarWidget({ variant = 'compact' }) {
                                 </span>
 
                                 {variant === 'compact' && dayEvents.length > 0 && (
-                                    <span className='calendar-event-dot' aria-hidden='true'></span>
+                                    <span 
+                                        className='calendar-event-dot' 
+                                        style={{
+                                            backgroundColor: dayEvents[0].color || '#F8E3E9'
+                                        }}
+                                        aria-hidden='true'
+                                    ></span>
                                 )}
 
                                 {variant === 'full' && dayEvents.length > 0 && (
                                     <span className='calendar-day-events'>
                                         {dayEvents.map((event) => (
-                                            <span key={event.id} className='calendar-event-item'>
+                                            <span 
+                                                key={event.id} 
+                                                className='calendar-event-item'
+                                                style={{
+                                                    backgroundColor: event.color || '#F8E3E9'
+                                                }}
+                                            >
                                                 {event.title}
                                             </span>
                                         ))}

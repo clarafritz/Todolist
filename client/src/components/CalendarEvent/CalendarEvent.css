@@ -1,4 +1,3 @@
-
 @reference "../../index.css";
 
 /* -----------------------------------------
@@ -75,6 +74,33 @@ CalendarEvent.css -> Formulaire événement Bloom
     .event-row {
         @apply grid grid-cols-2;
         gap: 12px;
+    }
+
+    .event-colors {
+        @apply flex flex-wrap items-center;
+        gap: 10px;
+    }
+
+    .event-color {
+        width: 34px;
+        height: 34px;
+        padding: 3px;
+        @apply flex items-center justify-center;
+        @apply rounded-full border border-transparent;
+        @apply transition-colors duration-200;
+
+        &.selected {
+            @apply border-dusty-rose;
+        }
+        &:focus-visible {
+            @apply outline-2 outline-offset-2 outline-dusty-rose;
+        }
+    }
+
+    .event-color-preview {
+        width: 26px;
+        height: 26px;
+        @apply block rounded-full;
     }
 
     .event-actions {

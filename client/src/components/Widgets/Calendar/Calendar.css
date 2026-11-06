@@ -98,7 +98,7 @@ Version compacte -> Home
         bottom: 1px;
         left: 50%; 
         transform: translateX(-50%);
-        @apply rounded-full bg-dusty-rose;
+        @apply rounded-full;
     }
 }
 
@@ -179,7 +179,7 @@ Version full -> Page Calendar
         padding: 4px 6px;
         font-size: 11px;
         @apply block truncate rounded-md;
-        @apply bg-blush text-dusty-rose;
+        @apply text-cocoa;
     }
 
     .calendar-empty {
