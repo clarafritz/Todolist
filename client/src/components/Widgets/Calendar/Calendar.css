@@ -128,6 +128,153 @@ Version full -> Page Calendar
         }
     }
 
+    .calendar-view-switch {
+        width: fit-content;
+        margin-bottom: 14px;
+        padding: 4px;
+        @apply flex gap-1 rounded-xl bg-ivory;
+
+        button {
+            padding: 7px 16px;
+            @apply rounded-lg text-sm font-medium text-cocoa;
+            @apply transition-colors duration-200;
+
+            &:hover {
+                @apply bg-blush;
+            }
+
+            &.active {
+                @apply bg-blush text-dusty-rose;
+            }
+        }
+    }
+
+    .calendar-week-grid {
+        flex: 1;
+        min-height: 0;
+        @apply grid grid-cols-7 gap-2;
+    }
+
+    .calendar-week-day {
+        min-width: 0;
+        padding: 12px 6px;
+        @apply flex flex-col items-center gap-3;
+        @apply rounded-xl border border-[#EAE8E9] bg-white text-cocoa;
+        @apply transition-colors duration-200;
+
+        &:hover {
+            @apply bg-ivory;
+        }
+
+        &.selected {
+            @apply border-dusty-rose;
+        }
+    }
+
+    .calendar-week-day-name {
+        @apply text-xs text-dusty-rose;
+    }
+
+    .calendar-week-day-number {
+        width: 32px;
+        height: 32px;
+        @apply flex items-center justify-center rounded-full;
+
+        .selected & {
+            @apply bg-blush font-semibold;
+        }
+    }
+
+    .calendar-week-events {
+        width: 100%;
+        min-width: 0;
+        @apply flex flex-col gap-2;
+    }
+
+    .calendar-week-events .calendar-event-item {
+        padding: 6px;
+        font-size: 11px;
+        @apply block truncate rounded-md text-cocoa;
+    }
+
+    .calendar-time-grid {
+        flex: 1;
+        min-height: 0;
+        @apply flex flex-col;
+    }
+
+    .calendar-time-day {
+        width: 100%;
+        max-width: 560px;
+        align-self: center;
+    }
+
+    .calendar-time-header, 
+    .calendar-all-day-row {
+        margin-right: 16px;
+    }
+
+    .calendar-time-header {
+        display: grid;
+        grid-template-columns: 55px repeat(var(--calendar-columns), minmax(0, 1fr));
+
+        span {
+            padding: 12px 4px;
+            @apply text-center text-xs text-dusty-rose;
+        }
+    }
+
+    .calendar-all-day-row {
+        display: grid;
+        grid-template-columns: 55px repeat(var(--calendar-columns), minmax(0, 1fr));
+    }
+
+    .calendar-all-day-label {
+        padding: 8px 4px;
+        @apply text-xs text-dusty-rose;
+    }
+
+    .calendar-all-day-cell {
+        min-width: 0;
+        padding: 2px 4px;
+    }
+
+    .calendar-time-body {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    .calendar-time-row {
+        display: grid;
+        grid-template-columns: 55px repeat(var(--calendar-columns), minmax(0, 1fr));
+        min-height: 28px;
+    }
+
+    .calendar-time-label {
+        padding: 4px;
+        @apply text-xs text-dusty-rose;
+    }
+
+    .calendar-time-cell {
+        min-width: 0;
+        @apply border-t border-l border-blush;
+    }
+
+    .calendar-time-event {
+        width: 100%;
+        min-width: 0;
+        padding: 4px 6px;
+        margin-bottom: 2px;
+        @apply flex flex-col items-start;
+        @apply rounded-md text-left text-xs text-cocoa;
+
+        span {
+            max-width: 100%;
+            @apply truncate;
+        }
+    }
+
     .calendar-grid {
         gap: 6px;
         flex: 1;
@@ -199,6 +346,10 @@ Responsive -> Tablette et téléphone
             min-height: 65px;
             padding: 6px;
         }
+
+        .calendar-time-day {
+            max-width: 480px;
+        }
     }
 }
 
@@ -234,6 +385,10 @@ Responsive -> Tablette et téléphone
                 padding: 3px;
                 font-size: 9px;
             }
+        }
+
+        .calendar-time-day {
+            max-width: none;
         }
     }
 }
