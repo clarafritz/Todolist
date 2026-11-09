@@ -8,17 +8,103 @@ CalendarPage.css -> Style page calendrier
     width: 100%;
     min-width: 0;
     height: 100%;
+    position: relative; 
 
     .calendar-page-content {
         height: 100%;
         min-height: 0;
         padding: 24px;
-        @apply flex flex-col;
+        position: relative;
+        @apply flex flex-row gap-5;
         @apply rounded-2xl bg-white;
         h2 {
             font-size: 32px;
             margin-bottom: 28px;
             @apply font-title font-semibold text-cocoa;
+        }
+    }
+
+    .calendar-options-header {
+        @apply flex items-center justify-between gap-2;
+    }
+
+     /* Liste des labels à filtrer */
+    .calendar-label-filters {
+        margin-top: 20px;
+        @apply flex flex-col gap-3;
+    }
+
+    .calendar-label-filter {
+        @apply flex items-center gap-2;
+        @apply text-sm text-cocoa cursor-pointer;
+    }
+
+    .calendar-label-filter input {
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+        border: 1px solid #EBC5D3;
+        border-radius: 4px;
+        cursor: pointer;
+        @apply bg-white;
+
+        &:checked {
+            background-color: #EBC5D3;
+            border-color: #EBC5D3;
+        }
+
+        &:checked::after {
+            content: '✓';
+            display: block;
+            color: white;
+            font-size: 12px;
+            line-height: 13px;
+            text-align: center;
+        }
+    }
+
+    .calendar-label-color {
+        width: 10px;
+        height: 10px;
+        flex-shrink: 0;
+        @apply rounded-full;
+    }
+
+    .calendar-options-toggle {
+        flex-shrink: 0;
+        padding: 7px 10px;
+        @apply rounded-lg bg-blush text-xs font-medium text-dusty-rose;
+        @apply transition-colors duration-200;
+
+        &:hover {
+            @apply bg-pink;
+        }
+    }
+
+    .calendar-page-content > .calendar-options-toggle {
+        position: absolute;
+        top: 70px;
+        right: 24px;
+        z-index: 2;
+    }
+
+    .calendar-page-main {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+        @apply flex flex-col;
+    }
+
+    .calendar-page-sidebar {
+        width: 220px;
+        flex-shrink: 0;
+        padding: 18px;
+        @apply rounded-xl bg-ivory;
+
+        h3 {
+            font-size: 14px;
+            @apply font-body font-semibold text-cocoa;
         }
     }
 }
@@ -32,6 +118,28 @@ Responsive -> Téléphone
     .calendar-page {
         .calendar-page-content {
             padding: 20px;
+        }
+
+        .calendar-page-content > .calendar-options-toggle {
+            top: 65px;
+            right: 12px;
+        }
+    }
+}
+
+/* -----------------------------------------
+Responsive -> Tablette
+----------------------------------------- */
+@media (max-width: 1024px) {
+    .calendar-page {
+        .calendar-page-content {
+            flex-direction: column;
+            height: auto;
+            min-height: 100%;
+        }
+
+        .calendar-page-sidebar {
+            width: 100%;
         }
     }
 }

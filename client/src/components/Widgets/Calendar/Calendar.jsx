@@ -11,7 +11,7 @@ import CalendarDayEvents from '../../CalendarDayEvents/CalendarDayEvents';
 /* Fonction : Affiche un calendrier mensuel */
 /* Paramètre : variant (full pour la page dédié calendar // compact pour page home) */
 /* Return : JSX */
-function CalendarWidget({ variant = 'compact' }) {
+function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [calendarView, setCalendarView] = useState('month');
@@ -22,6 +22,9 @@ function CalendarWidget({ variant = 'compact' }) {
         return savedEvents ? JSON.parse(savedEvents) : [];
     });
     const [editingEvent, setEditingEvent] = useState(null);
+    const filteredEvents = visibleLabels === null 
+        ? events
+        : events.filter((event) => visibleLabels.includes(event.label));
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -316,7 +319,7 @@ function CalendarWidget({ variant = 'compact' }) {
                                 String(day).padStart(2, '0')
                             ].join('-');
                             /* évènement correspondant à la date */
-                            const dayEvents = events.filter((event) => event.date === dayDate);
+                            const dayEvents = filteredEvents.filter((event) => event.date === dayDate);
 
 
                             return (
