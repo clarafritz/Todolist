@@ -3,9 +3,9 @@ CalendarPage.jsx -> Page UNIQUEMENT pour calendrier
 ----------------------------------------- */
 import CalendarWidget from '../../components/Widgets/Calendar/Calendar';
 import './CalendarPage.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getCalendarLabels, saveCalendarLabels, NO_CALENDAR_LABEL } from '../../data/calendarLabels';
-import { Pencil } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 
 /* Palette couleur personnaliser pour labels */
 const labelColors = [
@@ -38,6 +38,27 @@ function CalendarPage() {
         return saved === null ? true : saved === 'true';
     });
     const [hidePastEvents, setHidePastEvents] = useState(false);
+    /* Fonction : Synchronise les nouveaux labels avec la sidebar */
+    useEffect(() => {
+        const syncLabels = () => {
+            const updatedLabels = getCalendarLabels();
+
+            setCalendarLabels(updatedLabels);
+            setVisibleLabels((previous) => [
+                ...previous,
+                ...updatedLabels
+                    .filter((label) =>
+                        !calendarLabels.some((existingLabel) => existingLabel.id === label.id)
+                    )
+                    .map((label) => label.name)
+            ]);
+        };
+
+        window.addEventListener('bloom-calendar-label-created', syncLabels);
+        return () => {
+            window.removeEventListener('bloom-calendar-label-created', syncLabels);
+        };
+    }, [calendarLabels]);
 
 
 
@@ -226,6 +247,26 @@ function CalendarPage() {
                                                 Save
                                             </button>
                                         </div>
+                                    )}
+
+                                    {/* Bouton suppression label */}
+                                    {editingLabelColor === label.name && (
+                                        <button
+                                            type='button'
+                                            className='calendar-label-delete'
+                                            onClick={() => {
+                                                const confirmed = window.confirm(
+                                                    `Delete "${label.name}"? Its events will be kept without a label.`
+                                                );
+
+                                                if (confirmed) {
+                                                    deleteLabel(label.name);
+                                                }
+                                            }}
+                                        >
+                                            <Trash2 size={14} />
+                                            Delete label
+                                        </button>
                                     )}
 
                                     {editingLabelColor === label.name && (

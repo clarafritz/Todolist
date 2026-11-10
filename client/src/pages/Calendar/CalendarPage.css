@@ -193,6 +193,25 @@ CalendarPage.css -> Style page calendrier
         background-color: #F0D1DE;
     }
 
+    .calendar-label-delete {
+        flex-basis: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 8px 12px;
+        border: 1px solid #F0D1DE;
+        border-radius: 8px;
+        background-color: #FFF7F9;
+        color: #B76F91;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    .calendar-label-delete:hover {
+        background-color: #F8E3E9;
+    }
+
     .calendar-label-edit {
         margin-left: auto;
         padding: 4px;

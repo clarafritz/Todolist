@@ -66,6 +66,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
 
         saveCalendarLabels(updatedLabels);
         setCalendarLabels(updatedLabels);
+        window.dispatchEvent(new Event('bloom-calendar-label-created'));
         setLabel(newLabel.name);
         setColor(newLabel.color);
         setNewLabelName('');
@@ -94,6 +95,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
         };
 
         onSave(newEvent);
+        window.dispatchEvent(new Event('bloom-calendar-label-created'));
         onClose();
     };
 
