@@ -341,9 +341,16 @@ Version full -> Page Calendar
     /* Liste event 1 journée */
     .calendar-day-events {
         min-width: 0;
+        min-height: 0;
         margin-top: 4px;
+        overflow-y: auto;
+        overflow-x: hidden;
         @apply flex flex-col gap-1;
     }
+    .calendar-day-events .calendar-event-item {
+        flex-shrink: 0;
+    }
+    
     .calendar-event-item {
         min-width: 0;
         padding: 4px 6px;

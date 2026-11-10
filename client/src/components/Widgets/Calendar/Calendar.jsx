@@ -37,7 +37,21 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
             visibleLabels === null ||
             visibleLabels.includes(event.label);
 
-        const isPastEvent = event.date < new Date().toLocaleDateString('en-CA');
+        /* verifie si date est passée (h + date) */
+        const now = new Date();
+        const today = [
+            now.getFullYear(),
+            String(now.getMonth() + 1).padStart(2, '0'),
+            String(now.getDate()).padStart(2, '0')
+        ].join('-');
+        const currentTime = [
+            String(now.getHours()).padStart(2, '0'),
+            String(now.getMinutes()).padStart(2, '0')
+        ].join(':');
+        const isPastEvent =
+            event.date < today ||
+            (event.date === today && event.time && event.time < currentTime);
+
         return isLabelVisible && (!hidePastEvents || !isPastEvent);
     });
     /* recup couleur associé au label event */
