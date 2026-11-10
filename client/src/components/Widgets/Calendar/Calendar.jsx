@@ -1,7 +1,7 @@
 /* -----------------------------------------
 Calendar.jsx -> Calendrier mensuel Bloom
 ----------------------------------------- */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Calendar.css';
 import CalendarEvent from '../../CalendarEvent/CalendarEvent';
@@ -29,14 +29,12 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
         const isPastEvent = event.date < new Date().toLocaleDateString('en-CA');
         return isLabelVisible && (!hidePastEvents || !isPastEvent);
     });
-
     /* recup couleur associé au label event */
     const getEventColor = (event) => {
         const labels = getCalendarLabels();
         const eventLabel = labels.find((label) => label.name === event.label);
         return eventLabel?.color || event.color || '#F8E3E9';
     };
-
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -59,6 +57,21 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
         : weekDates;
 
 
+    /* Fonction : synchronise events apres modif des labels */
+    useEffect(() => {
+        const syncEvents = () => {
+            const savedEvents = localStorage.getItem('bloom-events');
+            setEvents(savedEvents ? JSON.parse(savedEvents) : []);
+        };
+
+        window.addEventListener('bloom-calendar-labels-updated', syncEvents);
+
+        return () => {
+            window.removeEventListener('bloom-calendar-labels-updated', syncEvents);
+        };
+    }, []);
+
+    
     /* Fonction : Change la période affiché */
     /* Paramètre : offset (-1 ou +1) */
     const changePeriod = (offset) => {

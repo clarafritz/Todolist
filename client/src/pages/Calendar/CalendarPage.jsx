@@ -26,6 +26,8 @@ function CalendarPage() {
     const [calendarLabels, setCalendarLabels] = useState(getCalendarLabels);
     /* label : on peut modif la couleur par defaut */
     const [editingLabelColor, setEditingLabelColor] = useState(null);
+    /*nom label en cours de modif */
+    const [editingLabelName, setEditingLabelName] = useState('');
     const [visibleLabels, setVisibleLabels] = useState(
         () => getCalendarLabels().map((label) => label.name)
     );
@@ -60,6 +62,41 @@ function CalendarPage() {
         setCalendarLabels(updatedLabels);
         saveCalendarLabels(updatedLabels);
         setEditingLabelColor(null);
+    };
+
+    /* Fonction : renomme un label + ses événements */
+    /* Paramètres : labelName, newName */
+    const renameLabel = (labelName, newName) => {
+        const name = newName.trim();
+        if (!name || calendarLabels.some((label) =>
+            label.name === name && label.name !== labelName
+        )) {
+            return false;
+        }
+
+        const updatedLabels = calendarLabels.map((label) =>
+            label.name === labelName
+                ? { ...label, name }
+                : label
+        );
+
+        setCalendarLabels(updatedLabels);
+        saveCalendarLabels(updatedLabels);
+
+        const savedEvents = JSON.parse(localStorage.getItem('bloom-events') || '[]');
+        const updatedEvents = savedEvents.map((event) =>
+            event.label === labelName
+                ? { ...event, label: name }
+                : event
+        );
+
+        localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
+        window.dispatchEvent(new Event('bloom-calendar-labels-updated'));
+        setVisibleLabels((previous) =>
+            previous.map((label) => label === labelName ? name : label)
+        );
+
+        return true;
     };
 
     /* Fonction : affiche / masque options */
@@ -109,7 +146,7 @@ function CalendarPage() {
                         
                         <div className='calendar-label-filters'>
                             {calendarLabels.map((label) => (
-                                <div key={label.name} className='calendar-label-filter'>
+                                <div key={label.id} className='calendar-label-filter'>
                                     <input
                                         type='checkbox'
                                         checked={visibleLabels.includes(label.name)}
@@ -126,14 +163,43 @@ function CalendarPage() {
                                         type='button'
                                         className='calendar-label-edit'
                                         onClick={() => {
-                                            setEditingLabelColor(
-                                                editingLabelColor === label.name ? null : label.name
-                                            );
+                                            const isEditing = editingLabelColor === label.name;
+
+                                            setEditingLabelColor(isEditing ? null : label.name);
+                                            setEditingLabelName(isEditing ? '' : label.name);
                                         }}
-                                        aria-label={`Change ${label.name} color`}
+                                        aria-label={`Edit ${label.name}`}
                                     >
                                         <Pencil size={13} />
                                     </button>
+
+                                    {editingLabelColor === label.name && (
+                                        <div className='calendar-label-rename'>
+                                            <input
+                                                type='text'
+                                                className='calendar-label-name-input'
+                                                value={editingLabelName}
+                                                onChange={(event) => setEditingLabelName(event.target.value)}
+                                                placeholder='Label name'
+                                                aria-label={`Rename ${label.name}`}
+                                            />
+
+                                            <button
+                                                type='button'
+                                                className='calendar-label-save'
+                                                onClick={() => {
+                                                    const isRenamed = renameLabel(label.name, editingLabelName);
+
+                                                    if (isRenamed) {
+                                                        setEditingLabelColor(null);
+                                                        setEditingLabelName('');
+                                                    }
+                                                }}
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    )}
 
                                     {editingLabelColor === label.name && (
                                         <div className='calendar-label-palette'>
