@@ -35,6 +35,7 @@ function CalendarPage() {
         const saved = localStorage.getItem('bloom-calendar-options-visible');
         return saved === null ? true : saved === 'true';
     });
+    const [hidePastEvents, setHidePastEvents] = useState(false);
 
 
 
@@ -82,7 +83,11 @@ function CalendarPage() {
                     >Show options</button>
                 )}
                 <div className='calendar-page-main'>
-                    <CalendarWidget variant='full' visibleLabels={visibleLabels} />
+                    <CalendarWidget
+                        variant='full'
+                        visibleLabels={visibleLabels}
+                        hidePastEvents={hidePastEvents}
+                    />
                 </div>
 
                 {/* panneau option droite calendrier */}
@@ -100,6 +105,8 @@ function CalendarPage() {
                         </div>
 
                         {/* liste labels droite calendrier */}
+                        <h4 className='calendar-options-section-title'>Label filters</h4>
+                        
                         <div className='calendar-label-filters'>
                             {calendarLabels.map((label) => (
                                 <div key={label.name} className='calendar-label-filter'>
@@ -144,6 +151,24 @@ function CalendarPage() {
                                     )}
                                 </div>
                             ))}
+                        </div>
+
+                        {/* Options d'affichage du calendrier */}
+                        <div className='calendar-display-options'>
+                            <h4 className='calendar-options-section-title'>Display options</h4>
+
+                            {/* Interrupteur pour masquer les événements passés */}
+                            <label className='calendar-display-option'>
+                                <span>Hide past events</span>
+
+                                <input
+                                    type='checkbox'
+                                    checked={hidePastEvents}
+                                    onChange={() => setHidePastEvents(!hidePastEvents)}
+                                />
+
+                                <span className='calendar-display-switch'></span>
+                            </label>
                         </div>
                     </aside>
                 )}

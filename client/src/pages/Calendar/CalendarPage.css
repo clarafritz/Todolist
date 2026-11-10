@@ -28,9 +28,79 @@ CalendarPage.css -> Style page calendrier
         @apply flex items-center justify-between gap-2;
     }
 
+
+    /* Titres des sections du panneau options */
+    .calendar-options-section-title {
+        font-size: 13px;
+        margin-top: 24px;
+        @apply font-body font-semibold text-dusty-rose;
+    }
+
+    /* Section des options d'affichage */
+    .calendar-display-options {
+        margin-top: 24px;
+        padding-top: 4px;
+        border-top: 1px solid #F0E3E8;
+    }
+
+    /* Option pour masquer les événements passés */
+    .calendar-display-option {
+        margin-top: 16px;
+        @apply flex items-center justify-between;
+        @apply text-sm text-cocoa cursor-pointer;
+    }
+
+    /* Cache la case native */
+    .calendar-display-option input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* Interrupteur rose pastel */
+    .calendar-display-switch {
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+        position: relative;
+        background-color: #E8DFE3;
+        border-radius: 20px;
+        transition: background-color 0.2s;
+    }
+
+    /* Petit rond blanc */
+    .calendar-display-switch::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        top: 3px;
+        left: 3px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.2s;
+    }
+
+    /* Interrupteur activé */
+    .calendar-display-option input:checked + .calendar-display-switch {
+        background-color: #EBC5D3;
+    }
+
+    .calendar-display-option input:checked + .calendar-display-switch::after {
+        transform: translateX(16px);
+    }
+
+    /* Contour visible au clavier */
+    .calendar-display-option input:focus-visible + .calendar-display-switch {
+        outline: 2px solid #D9A6BA;
+        outline-offset: 3px;
+    }
+
+
      /* Liste des labels à filtrer */
     .calendar-label-filters {
-        margin-top: 20px;
+        margin-top: 12px;
         @apply flex flex-col gap-3;
     }
 

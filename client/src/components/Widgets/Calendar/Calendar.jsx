@@ -10,9 +10,9 @@ import { getCalendarLabels } from '../../../data/calendarLabels';
 
 
 /* Fonction : Affiche un calendrier mensuel */
-/* Paramètre : variant (full pour la page dédié calendar // compact pour page home) */
+/* Paramètre : variant (full pour la page dédié calendar // compact pour page home), visibleLabels, hidePastEvents */
 /* Return : JSX */
-function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
+function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEvents = false }) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [calendarView, setCalendarView] = useState('month');
@@ -23,9 +23,12 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
         return savedEvents ? JSON.parse(savedEvents) : [];
     });
     const [editingEvent, setEditingEvent] = useState(null);
-    const filteredEvents = visibleLabels === null 
-        ? events
-        : events.filter((event) => visibleLabels.includes(event.label));
+    /* filtre event :  selon dates / labels */
+    const filteredEvents = events.filter((event) => {
+        const isLabelVisible = visibleLabels === null || visibleLabels.includes(event.label);
+        const isPastEvent = event.date < new Date().toLocaleDateString('en-CA');
+        return isLabelVisible && (!hidePastEvents || !isPastEvent);
+    });
 
     /* recup couleur associé au label event */
     const getEventColor = (event) => {
