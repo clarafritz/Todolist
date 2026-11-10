@@ -9,7 +9,9 @@ export const defaultCalendarLabels = [
     { id: 'school', name: 'School', color: '#E9E3F5' },
     { id: 'appointment', name: 'Appointment', color: '#E4F0E6' }
 ];
-
+/* Valeur par défaut pour un événement sans label */
+export const NO_CALENDAR_LABEL = '';
+export const NO_CALENDAR_LABEL_COLOR = '#EBE8E8';
 
 /* Fonction : Récupère les labels sauvegardés */
 /* Paramètre : aucun */

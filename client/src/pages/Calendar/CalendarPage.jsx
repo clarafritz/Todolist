@@ -4,7 +4,7 @@ CalendarPage.jsx -> Page UNIQUEMENT pour calendrier
 import CalendarWidget from '../../components/Widgets/Calendar/Calendar';
 import './CalendarPage.css';
 import { useState } from 'react';
-import { getCalendarLabels, saveCalendarLabels } from '../../data/calendarLabels';
+import { getCalendarLabels, saveCalendarLabels, NO_CALENDAR_LABEL } from '../../data/calendarLabels';
 import { Pencil } from 'lucide-react';
 
 /* Palette couleur personnaliser pour labels */
@@ -97,6 +97,33 @@ function CalendarPage() {
         );
 
         return true;
+    };
+
+    /* Fonction : suppr un label sans supprimer event */
+    /* Paramètre : labelName */
+    const deleteLabel = (labelName) => {
+        const updatedLabels = calendarLabels.filter((label) =>
+            label.name !== labelName
+        );
+
+        setCalendarLabels(updatedLabels);
+        saveCalendarLabels(updatedLabels);
+
+        const savedEvents = JSON.parse(localStorage.getItem('bloom-events') || '[]');
+        const updatedEvents = savedEvents.map((event) =>
+            event.label === labelName
+                ? { ...event, label: NO_CALENDAR_LABEL }
+                : event
+        );
+
+        localStorage.setItem('bloom-events', JSON.stringify(updatedEvents));
+        window.dispatchEvent(new Event('bloom-calendar-labels-updated'));
+        setVisibleLabels((previous) =>
+            previous.filter((name) => name !== labelName)
+        );
+
+        setEditingLabelColor(null);
+        setEditingLabelName('');
     };
 
     /* Fonction : affiche / masque options */

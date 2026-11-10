@@ -4,9 +4,7 @@ CalendarEvent.jsx -> Formulaire événement calendrier
 import { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 import './CalendarEvent.css';
-import { getCalendarLabels, saveCalendarLabels } from '../../data/calendarLabels';
-
-
+import { getCalendarLabels, saveCalendarLabels, NO_CALENDAR_LABEL, NO_CALENDAR_LABEL_COLOR } from '../../data/calendarLabels';
 /* Palette couleurs labels events */
 const eventColors = [
     { name: 'Rose', value: '#F8E3E9' },
@@ -34,10 +32,10 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
     const [title, setTitle] = useState(eventToEdit?.title || '');
     const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
     const [time, setTime] = useState(eventToEdit?.time || '');
-    const [label, setLabel] = useState(eventToEdit?.label || 'Personal');
+    const [label, setLabel] = useState(eventToEdit?.label ?? NO_CALENDAR_LABEL);
     const [color, setColor] = useState(
         () => calendarLabels.find(
-            (calendarLabel) => calendarLabel.name === (eventToEdit?.label || 'Personal')
+            (calendarLabel) => calendarLabel.name === (eventToEdit?.label ?? NO_CALENDAR_LABEL)
         )?.color || "#F8E3E9"
     );
 
@@ -90,7 +88,9 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
             date: eventDate,
             time,
             label,
-            color: calendarLabels.find((calendarLabel) => calendarLabel.name === label)?.color || '#F8E3E9'
+            color: label === NO_CALENDAR_LABEL
+                ? NO_CALENDAR_LABEL_COLOR
+                : calendarLabels.find((calendarLabel) => calendarLabel.name === label)?.color || NO_CALENDAR_LABEL_COLOR
         };
 
         onSave(newEvent);
@@ -188,6 +188,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
                                 }
                             }}
                         >
+                            <option value={NO_CALENDAR_LABEL}>No label</option>
                             {calendarLabels.map((calendarLabel) => (
                                 <option
                                     key={calendarLabel.id}

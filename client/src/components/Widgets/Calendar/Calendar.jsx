@@ -7,6 +7,7 @@ import './Calendar.css';
 import CalendarEvent from '../../CalendarEvent/CalendarEvent';
 import CalendarDayEvents from '../../CalendarDayEvents/CalendarDayEvents';
 import { getCalendarLabels } from '../../../data/calendarLabels';
+import { NO_CALENDAR_LABEL, NO_CALENDAR_LABEL_COLOR } from '../../../data/calendarLabels';
 
 
 /* Fonction : Affiche un calendrier mensuel */
@@ -25,12 +26,18 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
     const [editingEvent, setEditingEvent] = useState(null);
     /* filtre event :  selon dates / labels */
     const filteredEvents = events.filter((event) => {
-        const isLabelVisible = visibleLabels === null || visibleLabels.includes(event.label);
+        const isLabelVisible =
+            !event.label ||
+            visibleLabels === null ||
+            visibleLabels.includes(event.label);
         const isPastEvent = event.date < new Date().toLocaleDateString('en-CA');
         return isLabelVisible && (!hidePastEvents || !isPastEvent);
     });
     /* recup couleur associé au label event */
     const getEventColor = (event) => {
+        if (!event.label || event.label === NO_CALENDAR_LABEL) {
+            return NO_CALENDAR_LABEL_COLOR;
+        }
         const labels = getCalendarLabels();
         const eventLabel = labels.find((label) => label.name === event.label);
         return eventLabel?.color || event.color || '#F8E3E9';
@@ -71,7 +78,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
         };
     }, []);
 
-    
+
     /* Fonction : Change la période affiché */
     /* Paramètre : offset (-1 ou +1) */
     const changePeriod = (offset) => {
