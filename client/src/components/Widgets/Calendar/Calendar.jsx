@@ -272,7 +272,25 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                             >
                                                 <span>{event.title}</span>
                                                 {event.notes?.trim() && (
-                                                    <StickyNote size={12} />
+                                                    <span
+                                                        role='button'
+                                                        tabIndex={0}
+                                                        className='calendar-note-trigger'
+                                                        aria-label={`Open notes for ${event.title}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setNotesEvent(event);
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === 'Enter' || e.key === ' ') {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                setNotesEvent(event);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <StickyNote size={12} />
+                                                    </span>
                                                 )}
                                             </button>
                                         ))}
@@ -320,7 +338,25 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                                         <span>{event.time}</span>
                                                         <span>{event.title}</span>
                                                         {event.notes?.trim() && (
-                                                            <StickyNote size={12} />
+                                                            <span
+                                                                role='button'
+                                                                tabIndex={0}
+                                                                className='calendar-note-trigger'
+                                                                aria-label={`Open notes for ${event.title}`}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setNotesEvent(event);
+                                                                }}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        setNotesEvent(event);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <StickyNote size={12} />
+                                                            </span>
                                                         )}
                                                     </button>
                                                 ))}
@@ -367,11 +403,18 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
 
 
                             return (
-                                <button
+                                <div
                                     key={day}
-                                    type='button'
                                     className={`calendar-day ${isSelected ? 'selected' : ''}`}
+                                    role='button'
+                                    tabIndex={0}
                                     onClick={() => selectDay(day)}
+                                    onKeyDown={(e) => {
+                                        if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
+                                            e.preventDefault();
+                                            selectDay(day);
+                                        }
+                                    }}
                                     aria-pressed={isSelected}
                                     aria-label={`${day} ${currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`}
                                 >
@@ -401,13 +444,23 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                                 >
                                                     {event.title}
                                                     {event.notes?.trim() && (
-                                                        <StickyNote size={12} />
+                                                        <button
+                                                            type='button'
+                                                            className='calendar-note-trigger'
+                                                            aria-label={`Open notes for ${event.title}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setNotesEvent(event);
+                                                            }}
+                                                        >
+                                                            <StickyNote size={12} />
+                                                        </button>
                                                     )}
                                                 </span>
                                                 ))}
                                         </span>
                                     )}
-                                </button>
+                                </div>
                             );
                         })}
                     </div>

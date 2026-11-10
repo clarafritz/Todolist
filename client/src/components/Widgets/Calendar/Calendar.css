@@ -63,6 +63,24 @@ Calendar.css -> Style des calendriers Bloom
     .calendar-time-event svg {
         flex-shrink: 0;
     }
+
+    .calendar-note-trigger {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        cursor: pointer;
+        color: inherit;
+        border-radius: 4px;
+
+        &:hover {
+            @apply text-dusty-rose;
+        }
+
+        &:focus-visible {
+            @apply outline-2 outline-offset-2 outline-dusty-rose;
+        }
+    }
 }
 
 
