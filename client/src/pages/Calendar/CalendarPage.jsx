@@ -37,7 +37,10 @@ function CalendarPage() {
         const saved = localStorage.getItem('bloom-calendar-options-visible');
         return saved === null ? true : saved === 'true';
     });
-    const [hidePastEvents, setHidePastEvents] = useState(false);
+    const [hidePastEvents, setHidePastEvents] = useState(() => {
+        const saved = localStorage.getItem('bloom-calendar-hide-past-events');
+        return saved === 'true';
+    });
     /* Fonction : Synchronise les nouveaux labels avec la sidebar */
     useEffect(() => {
         const syncLabels = () => {
@@ -145,6 +148,15 @@ function CalendarPage() {
 
         setEditingLabelColor(null);
         setEditingLabelName('');
+    };
+
+    /* Fonction : Affiche / masque les événements passés */
+    /* Paramètre : aucun */
+    const togglePastEvents = () => {
+        const nextValue = !hidePastEvents;
+
+        setHidePastEvents(nextValue);
+        localStorage.setItem('bloom-calendar-hide-past-events', String(nextValue));
     };
 
     /* Fonction : affiche / masque options */
@@ -298,7 +310,7 @@ function CalendarPage() {
                                 <input
                                     type='checkbox'
                                     checked={hidePastEvents}
-                                    onChange={() => setHidePastEvents(!hidePastEvents)}
+                                    onChange={togglePastEvents}
                                 />
 
                                 <span className='calendar-display-switch'></span>

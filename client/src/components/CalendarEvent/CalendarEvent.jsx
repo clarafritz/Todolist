@@ -33,6 +33,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
     const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
     const [time, setTime] = useState(eventToEdit?.time || '');
     const [label, setLabel] = useState(eventToEdit?.label ?? NO_CALENDAR_LABEL);
+    const [notes, setNotes] = useState(eventToEdit?.notes || '');
     const [color, setColor] = useState(
         () => calendarLabels.find(
             (calendarLabel) => calendarLabel.name === (eventToEdit?.label ?? NO_CALENDAR_LABEL)
@@ -89,6 +90,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
             date: eventDate,
             time,
             label,
+            notes: notes.trim(),
             color: label === NO_CALENDAR_LABEL
                 ? NO_CALENDAR_LABEL_COLOR
                 : calendarLabels.find((calendarLabel) => calendarLabel.name === label)?.color || NO_CALENDAR_LABEL_COLOR
@@ -251,6 +253,17 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
                         )}
                     </div>
 
+                    <div className='event-field'>
+                        <label htmlFor='event-notes'>Notes (optional)</label>
+                        <textarea
+                            id='event-notes'
+                            placeholder='Add a note about this event...'
+                            value={notes}
+                            onChange={(event) => setNotes(event.target.value)}
+                            rows={4}
+                        />
+                    </div>
+                    
                     <div className='event-actions'>
                         {eventToEdit && (
                             <button

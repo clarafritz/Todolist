@@ -10,9 +10,9 @@ import './CalendarDayEvents.css';
 
 
 /* Fonction : Affiche les événements d'une journée */
-/* Paramètres : date, events, onClose, onAdd, onEdit */
+/* Paramètres : date, events, onClose, onAdd, onEdit, getEventColor, onShowNotes */
 /* Return : JSX */
-function CalendarDayEvents({ date, events, onClose, onAdd, onEdit }) {
+function CalendarDayEvents({ date, events, onClose, onAdd, onEdit, getEventColor, onShowNotes }) {
     const formattedDate = new Date(`${date}T12:00:00`).toLocaleDateString('en-US', {
         weekday: 'long',
         month: 'long',
@@ -48,7 +48,7 @@ function CalendarDayEvents({ date, events, onClose, onAdd, onEdit }) {
                             <div key={event.id} className='day-event-item'>
                                 <span
                                     className='day-event-color'
-                                    style={{ backgroundColor: event.color || '#F8E3E9' }}
+                                    style={{ backgroundColor: getEventColor(event) }}
                                 ></span>
 
                                 <div className='day-event-info'>
@@ -56,6 +56,22 @@ function CalendarDayEvents({ date, events, onClose, onAdd, onEdit }) {
                                     <span className='day-event-details'>
                                         {event.time ? `${event.time} · ` : ''}{event.label}
                                     </span>
+
+                                    {event.notes?.trim() && (
+                                        <div className='day-event-notes'>
+                                            <p className='day-event-notes-preview'>
+                                                {event.notes}
+                                            </p>
+
+                                            <button
+                                                type='button'
+                                                className='day-event-see-more'
+                                                onClick={() => onShowNotes(event)}
+                                            >
+                                                See more
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <button

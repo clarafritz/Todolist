@@ -81,6 +81,30 @@ CalendarDayEvents.css -> Gestion des événements
         @apply text-xs text-dusty-rose;
     }
 
+    .day-event-notes {
+        min-width: 0;
+        @apply flex flex-col items-start;
+        gap: 4px;
+    }
+
+    .day-event-notes-preview {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        @apply text-xs text-cocoa;
+        opacity: 0.7;
+    }
+
+    .day-event-see-more {
+        @apply text-xs font-medium text-dusty-rose;
+        @apply transition-colors duration-200;
+
+        &:hover {
+            @apply text-cocoa;
+        }
+    }
+
     .day-event-edit {
         width: 32px;
         height: 32px;

@@ -73,6 +73,22 @@ CalendarEvent.css -> Formulaire événement Bloom
         }
     }
 
+    .event-field textarea {
+        width: 100%;
+        min-width: 0;
+        min-height: 100px;
+        padding: 12px;
+        resize: vertical;
+        @apply rounded-lg bg-ivory;
+        @apply border border-blush;
+        @apply font-body text-sm text-cocoa;
+        @apply outline-none transition-colors duration-200;
+
+        &:focus {
+            @apply border-dusty-rose;
+        }
+    }
+
     .event-add-label {
         width: fit-content;
         @apply flex items-center gap-1;

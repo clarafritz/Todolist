@@ -2,12 +2,13 @@
 Calendar.jsx -> Calendrier mensuel Bloom
 ----------------------------------------- */
 import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, StickyNote } from 'lucide-react';
 import './Calendar.css';
 import CalendarEvent from '../../CalendarEvent/CalendarEvent';
 import CalendarDayEvents from '../../CalendarDayEvents/CalendarDayEvents';
 import { getCalendarLabels } from '../../../data/calendarLabels';
 import { NO_CALENDAR_LABEL, NO_CALENDAR_LABEL_COLOR } from '../../../data/calendarLabels';
+import CalendarEventNotes from '../../CalendarDayEvents/CalendarEventNotes';
 
 
 /* Fonction : Affiche un calendrier mensuel */
@@ -24,12 +25,18 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
         return savedEvents ? JSON.parse(savedEvents) : [];
     });
     const [editingEvent, setEditingEvent] = useState(null);
+    const [notesEvent, setNotesEvent] = useState(null);
     /* filtre event :  selon dates / labels */
     const filteredEvents = events.filter((event) => {
+        const labels = getCalendarLabels();
+        const labelExists = labels.some((label) => label.name === event.label);
+
         const isLabelVisible =
             !event.label ||
+            !labelExists ||
             visibleLabels === null ||
             visibleLabels.includes(event.label);
+
         const isPastEvent = event.date < new Date().toLocaleDateString('en-CA');
         return isLabelVisible && (!hidePastEvents || !isPastEvent);
     });
@@ -40,7 +47,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
         }
         const labels = getCalendarLabels();
         const eventLabel = labels.find((label) => label.name === event.label);
-        return eventLabel?.color || event.color || '#F8E3E9';
+        return eventLabel?.color || NO_CALENDAR_LABEL_COLOR;
     };
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -264,6 +271,9 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                                 }}
                                             >
                                                 <span>{event.title}</span>
+                                                {event.notes?.trim() && (
+                                                    <StickyNote size={12} />
+                                                )}
                                             </button>
                                         ))}
                                     </div>
@@ -309,6 +319,9 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                                     >
                                                         <span>{event.time}</span>
                                                         <span>{event.title}</span>
+                                                        {event.notes?.trim() && (
+                                                            <StickyNote size={12} />
+                                                        )}
                                                     </button>
                                                 ))}
                                             </div>
@@ -387,8 +400,11 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                                                     }}
                                                 >
                                                     {event.title}
+                                                    {event.notes?.trim() && (
+                                                        <StickyNote size={12} />
+                                                    )}
                                                 </span>
-                                            ))}
+                                                ))}
                                         </span>
                                     )}
                                 </button>
@@ -405,6 +421,8 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                     onClose={() => setIsDayOpen(false)}
                     onAdd={openNewEvent}
                     onEdit={editEvent}
+                    getEventColor={getEventColor}
+                    onShowNotes={(event) => setNotesEvent(event)}
                 />
             )}
 
@@ -415,6 +433,17 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null, hidePastEve
                     onClose={() => setIsEventOpen(false)}
                     onSave={editingEvent ? updateEvent : addEvent}
                     onDelete={deleteEvent}
+                />
+            )}
+
+            {notesEvent && (
+                <CalendarEventNotes
+                    event={notesEvent}
+                    onClose={() => setNotesEvent(null)}
+                    onSave={(updatedEvent) => {
+                        updateEvent(updatedEvent);
+                        setNotesEvent(updatedEvent);
+                    }}
                 />
             )}
         </>

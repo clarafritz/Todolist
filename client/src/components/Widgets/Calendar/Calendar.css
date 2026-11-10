@@ -58,6 +58,11 @@ Calendar.css -> Style des calendriers Bloom
             }
         }
     }
+
+    .calendar-event-item svg,
+    .calendar-time-event svg {
+        flex-shrink: 0;
+    }
 }
 
 
@@ -325,8 +330,11 @@ Version full -> Page Calendar
         min-width: 0;
         padding: 4px 6px;
         font-size: 11px;
-        @apply block truncate rounded-md;
+        @apply flex items-center justify-center gap-1 rounded-md;
         @apply text-cocoa;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     .calendar-empty {

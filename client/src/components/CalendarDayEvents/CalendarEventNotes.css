@@ -1,0 +1,98 @@
+/* -----------------------------------------
+CalendarEventNotes.css -> Affichage des notes d'un événement
+----------------------------------------- */
+@reference "../../index.css";
+
+.event-notes-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+    @apply flex items-center justify-center;
+    background-color: rgba(244, 220, 232, 0.25);
+}
+
+.event-notes-modal {
+    width: 100%;
+    max-width: 620px;
+    padding: 32px;
+    @apply flex flex-col gap-5;
+    @apply rounded-2xl bg-white shadow-xl;
+}
+
+.event-notes-header {
+    @apply flex items-start justify-between;
+    gap: 16px;
+
+    h2 {
+        font-size: 26px;
+        @apply font-title font-semibold text-cocoa;
+    }
+
+    button {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+        @apply flex items-center justify-center;
+        @apply rounded-full text-cocoa;
+
+        &:hover {
+            @apply bg-blush;
+        }
+    }
+}
+
+.event-notes-content {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-height: 45vh;
+    overflow-y: auto;
+    @apply font-body text-sm text-cocoa;
+}
+
+.event-notes-edit {
+    padding: 10px 16px;
+    @apply flex items-center justify-center gap-2 self-end;
+    @apply rounded-lg bg-dusty-rose text-sm font-medium text-white;
+    @apply transition-colors duration-200;
+
+    &:hover {
+        @apply bg-pink;
+    }
+}
+
+.event-notes-textarea {
+    width: 100%;
+    min-height: 200px;
+    max-height: 45vh;
+    padding: 14px;
+    resize: vertical;
+    @apply rounded-lg bg-ivory border border-blush;
+    @apply font-body text-sm text-cocoa outline-none;
+    @apply transition-colors duration-200;
+
+    &:focus {
+        @apply border-dusty-rose;
+    }
+}
+
+
+
+
+/* -----------------------------------------
+Responsive -> Tablette et téléphone
+----------------------------------------- */
+@media (max-width: 600px) {
+    .event-notes-modal {
+        padding: 20px;
+    }
+
+    .event-notes-header h2 {
+        font-size: 22px;
+    }
+
+    .event-notes-textarea {
+        min-height: 160px;
+    }
+}
