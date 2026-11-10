@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './Calendar.css';
 import CalendarEvent from '../../CalendarEvent/CalendarEvent';
 import CalendarDayEvents from '../../CalendarDayEvents/CalendarDayEvents';
+import { getCalendarLabels } from '../../../data/calendarLabels';
 
 
 /* Fonction : Affiche un calendrier mensuel */
@@ -25,6 +26,13 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
     const filteredEvents = visibleLabels === null 
         ? events
         : events.filter((event) => visibleLabels.includes(event.label));
+
+    /* recup couleur associé au label event */
+    const getEventColor = (event) => {
+        const labels = getCalendarLabels();
+        const eventLabel = labels.find((label) => label.name === event.label);
+        return eventLabel?.color || event.color || '#F8E3E9';
+    };
 
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -213,7 +221,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                 ].join('-');
 
                                 /* Événements sans heure pour ce jour */
-                                const allDayEvents = events.filter((event) =>
+                                const allDayEvents = filteredEvents.filter((event) =>
                                     event.date === dayDate && !event.time
                                 );
 
@@ -225,7 +233,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                                 type='button'
                                                 className='calendar-time-event'
                                                 style={{
-                                                    backgroundColor: event.color || '#F8E3E9'
+                                                    backgroundColor: getEventColor(event)
                                                 }}
                                                 onClick={() => {
                                                     setSelectedDate(date);
@@ -254,7 +262,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                             String(date.getDate()).padStart(2, '0')
                                         ].join('-');
 
-                                        const hourEvents = events.filter((event) =>
+                                        const hourEvents = filteredEvents.filter((event) =>
                                             event.date === dayDate &&
                                             event.time &&
                                             Number(event.time.split(':')[0]) === hour
@@ -270,7 +278,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                                         key={event.id}
                                                         type='button'
                                                         className='calendar-time-event'
-                                                        style={{ backgroundColor: event.color || '#F8E3E9' }}
+                                                        style={{ backgroundColor: getEventColor(event) }}
                                                         onClick={() => {
                                                             setSelectedDate(date);
                                                             editEvent(event);
@@ -339,7 +347,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                         <span 
                                             className='calendar-event-dot' 
                                             style={{
-                                                backgroundColor: dayEvents[0].color || '#F8E3E9'
+                                                backgroundColor: getEventColor(dayEvents[0])
                                             }}
                                             aria-hidden='true'
                                         ></span>
@@ -352,7 +360,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
                                                     key={event.id} 
                                                     className='calendar-event-item'
                                                     style={{
-                                                        backgroundColor: event.color || '#F8E3E9'
+                                                        backgroundColor: getEventColor(event)
                                                     }}
                                                 >
                                                     {event.title}
@@ -370,7 +378,7 @@ function CalendarWidget({ variant = 'compact', visibleLabels = null }) {
             {isDayOpen && (
                 <CalendarDayEvents
                     date={formattedDate}
-                    events={events.filter((event) => event.date === formattedDate)}
+                    events={filteredEvents.filter((event) => event.date === formattedDate)}
                     onClose={() => setIsDayOpen(false)}
                     onAdd={openNewEvent}
                     onEdit={editEvent}

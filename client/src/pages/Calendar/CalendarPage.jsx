@@ -4,7 +4,19 @@ CalendarPage.jsx -> Page UNIQUEMENT pour calendrier
 import CalendarWidget from '../../components/Widgets/Calendar/Calendar';
 import './CalendarPage.css';
 import { useState } from 'react';
-import { getCalendarLabels } from '../../data/calendarLabels';
+import { getCalendarLabels, saveCalendarLabels } from '../../data/calendarLabels';
+import { Pencil } from 'lucide-react';
+
+/* Palette couleur personnaliser pour labels */
+const labelColors = [
+    { name: 'Rose', value: '#F8E3E9' },
+    { name: 'Peach', value: '#F9E5DA' },
+    { name: 'Yellow', value: '#F8EFCB' },
+    { name: 'Green', value: '#E4F0E6' },
+    { name: 'Blue', value: '#E1EDF7' },
+    { name: 'Lavender', value: '#E9E3F5' },
+    { name: 'Grey', value: '#EBE8E8' }
+]
 
 
 /* Fonction : Affiche la page calendrier */
@@ -12,6 +24,8 @@ import { getCalendarLabels } from '../../data/calendarLabels';
 /* Return : JSX */
 function CalendarPage() {
     const [calendarLabels, setCalendarLabels] = useState(getCalendarLabels);
+    /* label : on peut modif la couleur par defaut */
+    const [editingLabelColor, setEditingLabelColor] = useState(null);
     const [visibleLabels, setVisibleLabels] = useState(
         () => getCalendarLabels().map((label) => label.name)
     );
@@ -33,6 +47,19 @@ function CalendarPage() {
                 : [...previous, labelName]
         );
     }
+
+    /* Fonction : modifie + sauvegarde couleur label */
+    /* Parametre : labelname, newcolor */
+    const changeLabelColor = (labelName, newColor) => {
+        const updatedLabels = calendarLabels.map((label) =>
+            label.name === labelName
+                ? { ...label, color: newColor }
+                : label
+        );
+        setCalendarLabels(updatedLabels);
+        saveCalendarLabels(updatedLabels);
+        setEditingLabelColor(null);
+    };
 
     /* Fonction : affiche / masque options */
     /* Paramètre : aucun */
@@ -75,7 +102,7 @@ function CalendarPage() {
                         {/* liste labels droite calendrier */}
                         <div className='calendar-label-filters'>
                             {calendarLabels.map((label) => (
-                                <label key={label.name} className='calendar-label-filter'>
+                                <div key={label.name} className='calendar-label-filter'>
                                     <input
                                         type='checkbox'
                                         checked={visibleLabels.includes(label.name)}
@@ -85,8 +112,37 @@ function CalendarPage() {
                                         className='calendar-label-color'
                                         style={{ backgroundColor: label.color }}
                                     ></span>
+
                                     <span>{label.name}</span>
-                                </label>
+
+                                    <button
+                                        type='button'
+                                        className='calendar-label-edit'
+                                        onClick={() => {
+                                            setEditingLabelColor(
+                                                editingLabelColor === label.name ? null : label.name
+                                            );
+                                        }}
+                                        aria-label={`Change ${label.name} color`}
+                                    >
+                                        <Pencil size={13} />
+                                    </button>
+
+                                    {editingLabelColor === label.name && (
+                                        <div className='calendar-label-palette'>
+                                            {labelColors.map((color) => (
+                                                <button
+                                                    key={color.value}
+                                                    type='button'
+                                                    className='calendar-label-palette-color'
+                                                    style={{ backgroundColor: color.value }}
+                                                    onClick={() => changeLabelColor(label.name, color.value)}
+                                                    aria-label={`Choose ${color.name}`}
+                                                ></button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </aside>

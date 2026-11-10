@@ -35,6 +35,7 @@ CalendarPage.css -> Style page calendrier
     }
 
     .calendar-label-filter {
+        flex-wrap: wrap;
         @apply flex items-center gap-2;
         @apply text-sm text-cocoa cursor-pointer;
     }
@@ -69,6 +70,46 @@ CalendarPage.css -> Style page calendrier
         height: 10px;
         flex-shrink: 0;
         @apply rounded-full;
+    }
+
+
+    /* Crayon pour modifier la couleur du label */
+    .calendar-label-edit {
+        margin-left: auto;
+        padding: 4px;
+        color: #D9A6BA;
+        cursor: pointer;
+        @apply flex items-center justify-center rounded-md;
+
+        &:hover {
+            background-color: #F8E3E9;
+        }
+    }
+
+    /* Palette de couleurs du label */
+    .calendar-label-palette {
+        display: flex;
+        flex-basis: 100%; 
+        flex-wrap: wrap;
+        gap: 7px;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        @apply rounded-lg bg-white;
+    }
+
+    /* Petits cercles de couleurs */
+    .calendar-label-palette-color {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        border: 1px solid #E8DDE1;
+        border-radius: 50%;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.12);
+        }
     }
 
     .calendar-options-toggle {

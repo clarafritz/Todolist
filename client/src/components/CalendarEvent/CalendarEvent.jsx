@@ -35,7 +35,11 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
     const [eventDate, setEventDate] = useState(eventToEdit?.date || date);
     const [time, setTime] = useState(eventToEdit?.time || '');
     const [label, setLabel] = useState(eventToEdit?.label || 'Personal');
-    const [color, setColor] = useState(eventToEdit?.color || '#F8E3E9');
+    const [color, setColor] = useState(
+        () => calendarLabels.find(
+            (calendarLabel) => calendarLabel.name === (eventToEdit?.label || 'Personal')
+        )?.color || "#F8E3E9"
+    );
 
 
     /* Fonction : créer label personnalisé */
@@ -86,7 +90,7 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
             date: eventDate,
             time,
             label,
-            color
+            color: calendarLabels.find((calendarLabel) => calendarLabel.name === label)?.color || '#F8E3E9'
         };
 
         onSave(newEvent);
@@ -242,28 +246,6 @@ function CalendarEvent({ date, eventToEdit, onClose, onSave, onDelete}) {
                             </button>
                             </div>
                         )}
-                    </div>
-
-                    <div className='event-field'>
-                        <label>Event color</label>
-
-                        <div className='event-colors'>
-                            {eventColors.map((eventColor) => (
-                                <button
-                                    key={eventColor.value}
-                                    type='button'
-                                    className={`event-color ${color === eventColor.value ? 'selected' : ''}`}
-                                    onClick={() => setColor(eventColor.value)}
-                                    aria-label={`${eventColor.name} color`}
-                                    aria-pressed={color === eventColor.value}
-                                >
-                                    <span
-                                        className='event-color-preview'
-                                        style={{ backgroundColor: eventColor.value }}
-                                    ></span>
-                                </button>
-                            ))}
-                        </div>
                     </div>
 
                     <div className='event-actions'>
