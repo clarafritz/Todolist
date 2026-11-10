@@ -10,6 +10,7 @@ import Home from './pages/Home/Home';
 import CalendarPage from './pages/Calendar/CalendarPage';
 import PagePlaceholder from './components/PagePlaceholder/PagePlaceholder';
 import './App.css';
+import TasksPage from './pages/Tasks/TasksPage';
 
 /* Fonction : Affiche la structure principale */
 /* Paramètre : aucun */
@@ -78,7 +79,7 @@ function App() {
                         />
                         <Route
                             path='/tasks'
-                            element={<PagePlaceholder title='Tasks' />}
+                            element={<TasksPage />}
                         />
                         <Route
                             path='/goals'
