@@ -136,7 +136,7 @@ function Home() {
 
                 <article className='home-widget widget-day'>
                     <div className='home-widget-header'>
-                        <h2>My Day</h2>
+                        <h2>My day</h2>
                         <span className='home-widget-date'>
                             {today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                         </span>
@@ -288,7 +288,7 @@ function Home() {
 
                 <article className='home-widget widget-notes'>
                     <div className='home-widget-header'>
-                        <h2>Quick Notes</h2>
+                        <h2>Quick notes</h2>
                         <Link to='/notes' className='home-widget-link' aria-label='Open notes'>
                             <ArrowUpRight size={17} />
                         </Link>
