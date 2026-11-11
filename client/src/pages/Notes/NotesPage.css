@@ -1,0 +1,507 @@
+/* -----------------------------------------
+NotesPage.css -> Styles de la page Notes
+----------------------------------------- */
+@reference "../../index.css";
+
+.notes-page {
+    height: calc(100vh - 96px);
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.notes-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.notes-page-header h1 {
+    font-size: 42px;
+    @apply font-title font-semibold text-cocoa;
+}
+
+.notes-page-header p {
+    margin-top: 2px;
+    font-size: 14px;
+    @apply text-dusty-rose;
+}
+
+.notes-page-header > span {
+    font-size: 13px;
+    @apply text-dusty-rose;
+}
+
+.notes-layout {
+    display: grid;
+    grid-template-columns: minmax(190px, 1.05fr) minmax(210px, 1.2fr) minmax(0, 2.75fr);
+    gap: 18px;
+    flex: 1;
+    min-height: 0;
+}
+
+.notes-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 22px;
+    border-radius: 20px;
+    @apply bg-white;
+}
+
+.notes-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 30px;
+    margin-bottom: 20px;
+}
+
+.notes-panel-header h2 {
+    font-size: 17px;
+    font-weight: 600;
+    @apply text-cocoa;
+}
+
+.notes-icon-button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    @apply text-dusty-rose;
+}
+
+.notes-icon-button:hover,
+.notes-icon-button.active {
+    @apply bg-blush;
+}
+
+.notes-folder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.notes-folder-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
+
+.notes-folder-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 11px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    @apply text-cocoa;
+}
+
+.notes-folder-item svg {
+    flex-shrink: 0;
+    @apply text-dusty-rose;
+}
+
+.notes-folder-item span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.notes-folder-item:hover,
+.notes-folder-item.selected {
+    @apply bg-blush;
+}
+
+.notes-folder-actions {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.notes-folder-actions button,
+.notes-folder-edit button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 28px;
+    cursor: pointer;
+    @apply text-dusty-rose;
+}
+
+.notes-folder-actions button:hover,
+.notes-folder-edit button:hover {
+    @apply text-cocoa;
+}
+
+.notes-folder-edit {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+}
+
+.notes-folder-edit input {
+    width: 100%;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid #F3E3E9;
+    border-radius: 8px;
+    outline: none;
+    font-size: 12px;
+    @apply text-cocoa;
+}
+
+.notes-folder-edit input:focus {
+    @apply border-pink;
+}
+
+.notes-add-folder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    @apply text-dusty-rose;
+}
+
+.notes-add-folder:hover {
+    @apply text-cocoa;
+}
+
+.notes-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notes-search {
+    width: 100%;
+    padding: 11px 13px;
+    margin-bottom: 15px;
+    border: 1px solid #F3E3E9;
+    border-radius: 10px;
+    outline: none;
+    font-size: 13px;
+    @apply bg-ivory text-cocoa;
+}
+
+.notes-search:focus {
+    @apply border-pink;
+}
+
+.notes-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.notes-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    width: 100%;
+    padding: 17px;
+    border-radius: 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    @apply bg-ivory;
+}
+
+.notes-item:hover,
+.notes-item.selected {
+    @apply bg-blush;
+}
+
+.notes-item strong {
+    max-width: 100%;
+    font-size: 13px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @apply text-cocoa;
+}
+
+.notes-item span {
+    width: 100%;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #817879;
+}
+
+.notes-empty-list {
+    padding: 25px 5px;
+    font-size: 13px;
+    text-align: center;
+    @apply text-dusty-rose;
+}
+
+.notes-editor-panel {
+    padding: 20px 24px 16px;
+}
+
+.notes-editor-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-shrink: 0;
+    min-height: 26px;
+}
+
+.notes-editor-top span {
+    font-size: 12px;
+    @apply text-dusty-rose;
+}
+
+.notes-title-input {
+    width: 100%;
+    flex-shrink: 0;
+    padding: 12px 0 10px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 26px;
+    font-weight: 600;
+    @apply font-title text-cocoa;
+}
+
+.notes-title-input::placeholder {
+    color: #B8AEB2;
+}
+
+.notes-editor-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px 18px;
+    border: 1px solid #F3E3E9;
+    border-radius: 12px;
+    background-color: #FFFCFD;
+    cursor: text;
+}
+.notes-editor-content:focus-within {
+    border-color: #E8A9BF;
+}
+
+.notes-editor-content > div {
+    min-height: 100%;
+}
+
+.notes-writing-area {
+    min-height: 100%;
+    outline: none;
+    font-size: 14px;
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+    @apply text-cocoa;
+}
+.notes-writing-area .is-empty::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    color: #C4B5BA;
+}
+
+.notes-writing-area p {
+    margin: 0 0 12px;
+    color: inherit !important;
+}
+
+
+
+.notes-editor-content {
+    cursor: text;
+}
+
+.notes-writing-area h1,
+.notes-writing-area h2,
+.notes-writing-area h3 {
+    margin: 12px 0 8px;
+    font-weight: 600;
+    @apply font-title text-cocoa;
+}
+
+.notes-writing-area h1 {
+    font-size: 28px;
+}
+
+.notes-writing-area h2 {
+    font-size: 23px;
+}
+
+.notes-writing-area h3 {
+    font-size: 19px;
+}
+
+.notes-writing-area ul,
+.notes-writing-area ol {
+    padding-left: 24px;
+    margin: 8px 0 14px;
+}
+
+.notes-writing-area ul {
+    list-style: disc;
+}
+
+.notes-writing-area ol {
+    list-style: decimal;
+}
+
+.notes-writing-area mark {
+    background-color: #F3E3E9;
+    border-radius: 3px;
+    padding: 1px 2px;
+}
+
+.notes-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 11px;
+    border-top: 1px solid #F3E3E9;
+    flex-shrink: 0;
+}
+
+.notes-format-actions,
+.notes-font-size {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.notes-format-actions button,
+.notes-font-size button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    cursor: pointer;
+    @apply text-cocoa;
+}
+
+.notes-format-actions button:hover,
+.notes-format-actions button.active,
+.notes-font-size button:hover {
+    @apply bg-blush;
+}
+
+.notes-font-size button {
+    @apply text-dusty-rose;
+}
+
+.notes-font-size span {
+    min-width: 23px;
+    text-align: center;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    @apply text-cocoa;
+}
+
+@media (max-width: 1200px) {
+    .notes-layout {
+        grid-template-columns: minmax(160px, 1fr) minmax(180px, 1.15fr) minmax(0, 2fr);
+        gap: 12px;
+    }
+
+    .notes-panel {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .notes-page {
+        height: calc(100vh - 120px);
+    }
+
+    .notes-layout {
+        grid-template-columns: minmax(145px, 1fr) minmax(165px, 1.1fr) minmax(0, 1.8fr);
+    }
+
+    .notes-page-header h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 750px) {
+    .notes-page {
+        height: auto;
+        min-height: calc(100vh - 120px);
+    }
+
+    .notes-layout {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        flex: none;
+    }
+
+    .notes-panel {
+        min-height: 0;
+    }
+
+    .notes-folders {
+        max-height: 300px;
+    }
+
+    .notes-list-panel {
+        max-height: 320px;
+    }
+
+    .notes-editor-panel {
+        height: 520px;
+    }
+
+    .notes-page-header > span {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .notes-page-header h1 {
+        font-size: 34px;
+    }
+
+    .notes-editor-panel {
+        padding: 16px;
+    }
+
+    .notes-title-input {
+        font-size: 24px;
+    }
+}

@@ -11,6 +11,9 @@ import CalendarPage from './pages/Calendar/CalendarPage';
 import PagePlaceholder from './components/PagePlaceholder/PagePlaceholder';
 import './App.css';
 import TasksPage from './pages/Tasks/TasksPage';
+import GoalsPage from './pages/Goals/GoalsPage';
+import NotesPage from './pages/Notes/NotesPage';
+
 
 /* Fonction : Affiche la structure principale */
 /* Paramètre : aucun */
@@ -83,11 +86,11 @@ function App() {
                         />
                         <Route
                             path='/goals'
-                            element={<PagePlaceholder title='Goals' />}
+                            element={<GoalsPage />}
                         />
                         <Route
                             path='/notes'
-                            element={<PagePlaceholder title='Notes' />}
+                            element={<NotesPage />}
                         />
                         <Route
                             path='/customize'
