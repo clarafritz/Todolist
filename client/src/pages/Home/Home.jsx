@@ -200,7 +200,7 @@ function Home() {
 
                 <article className='home-widget widget-motivation'>
                     <div className='home-widget-header'>
-                        <h2>Daily Motivation</h2>
+                        <h2>Daily motivation</h2>
                         <Sparkles size={19} className='home-motivation-icon' />
                     </div>
 
@@ -213,7 +213,7 @@ function Home() {
 
                 <article className='home-widget widget-tasks'>
                     <div className='home-widget-header'>
-                        <h2>Upcoming Tasks</h2>
+                        <h2>Upcoming tasks</h2>
                         <Link to='/tasks' className='home-widget-link' aria-label='Open tasks'>
                             <ArrowUpRight size={17} />
                         </Link>
