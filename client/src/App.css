@@ -27,6 +27,11 @@ App.css -> Style structure principale
         min-height: 0;
         overflow: hidden;
     }
+
+    .app-content:has(.home) {
+        padding-top: 24px;
+        padding-bottom: 24px;
+    }
 }
 
 
